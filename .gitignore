@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.next/
+.vinext/
+.wrangler/
+hf-static-output/
+hf-static/
+hf-publish/
+hf-publish-final/
+.openai/
+.agents/
+.sites-*.log
+*.err.log
+.env*
