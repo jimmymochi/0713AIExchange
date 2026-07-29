@@ -481,8 +481,29 @@ img { display: block; max-width: 100%; }
 .workflow-toolbar > div:first-child { display: flex; align-items: center; gap: 18px; }
 .workflow-toolbar .mono-label { color: #898a83; }
 .workflow-toolbar strong { font-size: 14px; }
-.mode-toggle { display: flex; padding: 3px; border: 1px solid #555650; }
+.mode-toggle {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  padding: 3px;
+  border: 1px solid #555650;
+}
+.mode-toggle-pill {
+  position: absolute;
+  z-index: 0;
+  top: 3px;
+  bottom: 3px;
+  background: var(--green);
+  pointer-events: none;
+  transition:
+    left .4s cubic-bezier(0.65, 0, 0.35, 1),
+    width .4s cubic-bezier(0.65, 0, 0.35, 1),
+    background-color .25s ease;
+}
+.workflow-explorer.failure .mode-toggle-pill { background: var(--red); }
 .mode-toggle button {
+  position: relative;
+  z-index: 1;
   min-height: 34px;
   padding: 0 13px;
   border: 0;
@@ -491,9 +512,9 @@ img { display: block; max-width: 100%; }
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
+  transition: color .18s ease;
 }
-.mode-toggle button.active { background: var(--green); color: var(--ink); }
-.workflow-explorer.failure .mode-toggle button.active { background: var(--red); }
+.mode-toggle button.active { color: var(--ink); transition-delay: .14s; }
 .workflow-track { display: grid; grid-template-columns: repeat(6, 1fr); padding: 46px 20px 38px; }
 .workflow-track button {
   position: relative;
@@ -558,8 +579,28 @@ img { display: block; max-width: 100%; }
 
 .artifacts-section { background: var(--violet); border-bottom: 1px solid var(--ink); }
 .artifact-shell { border: 1.5px solid var(--ink); background: var(--paper); box-shadow: 12px 12px 0 var(--ink); }
-.artifact-tabs { display: flex; align-items: stretch; border-bottom: 1px solid var(--ink); }
+.artifact-tabs {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--ink);
+}
+.artifact-tab-pill {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: var(--ink);
+  pointer-events: none;
+  transition:
+    left .4s cubic-bezier(0.65, 0, 0.35, 1),
+    width .4s cubic-bezier(0.65, 0, 0.35, 1);
+}
 .artifact-tabs button {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -568,14 +609,33 @@ img { display: block; max-width: 100%; }
   border: 0;
   border-right: 1px solid var(--line);
   background: transparent;
+  color: var(--ink);
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
+  transition: color .18s ease;
 }
-.artifact-tabs button span { color: var(--muted); font: 700 9px/1 var(--font-mono); }
-.artifact-tabs button.active { background: var(--ink); color: var(--paper); }
-.artifact-tabs button.active span { color: var(--green); }
-.snapshot-badge { margin: auto 17px auto auto; color: var(--muted); font: 700 9px/1 var(--font-mono); letter-spacing: .08em; }
+.artifact-tabs button span {
+  color: var(--muted);
+  font: 700 9px/1 var(--font-mono);
+  transition: color .18s ease;
+}
+.artifact-tabs button.active {
+  color: var(--paper);
+  transition-delay: .18s;
+}
+.artifact-tabs button.active span {
+  color: var(--green);
+  transition-delay: .18s;
+}
+.snapshot-badge {
+  position: relative;
+  z-index: 1;
+  margin: auto 17px auto auto;
+  color: var(--muted);
+  font: 700 9px/1 var(--font-mono);
+  letter-spacing: .08em;
+}
 .viewer-toolbar {
   display: flex;
   justify-content: space-between;
@@ -818,6 +878,18 @@ img { display: block; max-width: 100%; }
 .skills-lab { border: 1.5px solid var(--ink); }
 .skills-toolbar { display: flex; justify-content: space-between; gap: 22px; padding: 12px; border-bottom: 1px solid var(--ink); background: var(--paper-2); }
 .family-switch, .source-filters { display: flex; gap: 5px; }
+.family-switch { position: relative; isolation: isolate; }
+.family-switch-pill {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--ink);
+  pointer-events: none;
+  transition:
+    left .4s cubic-bezier(0.65, 0, 0.35, 1),
+    width .4s cubic-bezier(0.65, 0, 0.35, 1);
+}
 .family-switch button, .source-filters button {
   min-height: 38px;
   padding: 0 13px;
@@ -827,8 +899,17 @@ img { display: block; max-width: 100%; }
   font-size: 11px;
   font-weight: 750;
 }
-.family-switch button.active { background: var(--ink); color: var(--paper); }
-.family-switch span { margin-left: 7px; color: var(--green-deep); font: 700 9px/1 var(--font-mono); }
+.family-switch button {
+  position: relative;
+  z-index: 1;
+  transition: color .18s ease;
+}
+.family-switch button.active {
+  background: transparent;
+  color: var(--paper);
+  transition-delay: .14s;
+}
+.family-switch button span { margin-left: 7px; color: var(--green-deep); font: 700 9px/1 var(--font-mono); }
 .source-filters button.active { border-color: var(--ink); background: var(--green); }
 .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 .skill-card {
@@ -1174,9 +1255,41 @@ img { display: block; max-width: 100%; }
 .tempo-gallery-bar > span { justify-self: end; color: #858b92; }
 .tempo-window-dots { display: flex; gap: 6px; }
 .tempo-window-dots i { width: 7px; height: 7px; border: 1px solid #767b80; border-radius: 50%; }
-.tempo-tabs { display: flex; gap: 4px; padding: 3px; border: 1px solid #333940; }
-.tempo-tabs button { padding: 8px 12px; border: 0; background: transparent; color: #949aa1; cursor: pointer; font: 700 10px/1 var(--font-mono); }
-.tempo-tabs button.active { background: #e8edf2; color: #101419; }
+.tempo-tabs {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid #333940;
+}
+.tempo-tab-pill {
+  position: absolute;
+  z-index: 0;
+  top: 3px;
+  bottom: 3px;
+  background: #e8edf2;
+  pointer-events: none;
+  transition:
+    left .4s cubic-bezier(0.65, 0, 0.35, 1),
+    width .4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.tempo-tabs button {
+  position: relative;
+  z-index: 1;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  color: #949aa1;
+  cursor: pointer;
+  font: 700 10px/1 var(--font-mono);
+  transition: color .18s ease;
+}
+.tempo-tabs button.active {
+  background: transparent;
+  color: #101419;
+  transition-delay: .14s;
+}
 .tempo-screen { aspect-ratio: 2048 / 1198; overflow: hidden; background: #0b0f13; }
 .tempo-screen img { width: 100%; height: 100%; object-fit: contain; animation: tempo-screen-in .35s ease both; }
 @keyframes tempo-screen-in { from { opacity: .4; transform: scale(.995); } to { opacity: 1; transform: scale(1); } }
@@ -1469,6 +1582,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
+    transition-delay: 0ms !important;
+    transition-duration: .001ms !important;
   }
   .reveal { animation: none; opacity: 1; transform: none; }
 }

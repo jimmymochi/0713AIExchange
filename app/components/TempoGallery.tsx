@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
+import useSlidingPill from "./useSlidingPill";
 
 const scenes = {
   codex: {
@@ -33,24 +34,67 @@ const scenes = {
 } as const;
 
 type SceneKey = keyof typeof scenes;
+const sceneKeys = Object.keys(scenes) as SceneKey[];
 
 export default function TempoGallery() {
   const [active, setActive] = useState<SceneKey>("codex");
   const scene = scenes[active];
+  const {
+    containerRef,
+    pill,
+    registerButton,
+    movePillTo,
+    focusButton,
+  } = useSlidingPill(active, sceneKeys);
+
+  const handleTabKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
+    let nextIndex = index;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + sceneKeys.length) % sceneKeys.length;
+    else if (event.key === "ArrowRight") nextIndex = (index + 1) % sceneKeys.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = sceneKeys.length - 1;
+    else return;
+
+    event.preventDefault();
+    const next = sceneKeys[nextIndex];
+    setActive(next);
+    focusButton(next);
+  };
 
   return (
     <div className="tempo-gallery">
       <div className="tempo-gallery-bar">
         <div className="tempo-window-dots" aria-hidden="true"><i /><i /><i /></div>
-        <div className="tempo-tabs" role="tablist" aria-label="TempoTerm 使用場景">
-          {(Object.keys(scenes) as SceneKey[]).map((key) => (
+        <div
+          ref={containerRef}
+          className="tempo-tabs"
+          role="tablist"
+          aria-label="TempoTerm 使用場景"
+        >
+          <span
+            className="tempo-tab-pill"
+            style={{ left: pill.left, width: pill.width }}
+            aria-hidden="true"
+          />
+          {sceneKeys.map((key, index) => (
             <button
+              ref={registerButton(key)}
               key={key}
               type="button"
               role="tab"
+              id={`tempo-tab-${key}`}
               aria-selected={active === key}
+              aria-controls="tempo-scene-panel"
+              tabIndex={active === key ? 0 : -1}
               className={active === key ? "active" : ""}
-              onClick={() => setActive(key)}
+              onClick={(event) => {
+                movePillTo(event.currentTarget);
+                setActive(key);
+              }}
+              onKeyDown={(event) => handleTabKeyDown(event, index)}
             >
               {scenes[key].label}
             </button>
@@ -58,7 +102,12 @@ export default function TempoGallery() {
         </div>
         <span>REAL WORKSPACE</span>
       </div>
-      <div className="tempo-screen">
+      <div
+        className="tempo-screen"
+        id="tempo-scene-panel"
+        role="tabpanel"
+        aria-labelledby={`tempo-tab-${active}`}
+      >
         <Image
           key={scene.image}
           src={scene.image}

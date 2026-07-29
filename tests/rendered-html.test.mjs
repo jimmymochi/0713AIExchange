@@ -546,3 +546,60 @@ test("bypasses native fragment navigation for the three case cards", async () =>
     /scrollIntoView\(\{\s*behavior:\s*"auto",\s*block:\s*"start"\s*\}\)/,
   );
 });
+
+test("animates the artifact segmented tabs with a measured sliding pill", async () => {
+  const showcase = await readFile(
+    new URL("app/components/ArtifactShowcase.tsx", root),
+    "utf8",
+  );
+  const css = await readFile(new URL("app/globals.css", root), "utf8");
+
+  assert.match(showcase, /offsetLeft/);
+  assert.match(showcase, /offsetWidth/);
+  assert.match(showcase, /className="artifact-tab-pill"/);
+  assert.match(showcase, /ArrowLeft/);
+  assert.match(showcase, /ArrowRight/);
+  assert.match(
+    css,
+    /cubic-bezier\(0\.65,\s*0,\s*0\.35,\s*1\)/,
+  );
+  assert.match(css, /transition:\s*left\s*\.4s[^;]*width\s*\.4s/);
+});
+
+test("uses measured sliding pills for the recommended segmented controls", async () => {
+  const [workflow, skills, tempo, hook, css] = await Promise.all([
+    readFile(new URL("app/components/WorkflowExplorer.tsx", root), "utf8"),
+    readFile(new URL("app/components/SkillsLab.tsx", root), "utf8"),
+    readFile(new URL("app/components/TempoGallery.tsx", root), "utf8"),
+    readFile(new URL("app/components/useSlidingPill.ts", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
+  ]);
+
+  assert.match(workflow, /className="mode-toggle-pill"/);
+  assert.match(skills, /className="family-switch-pill"/);
+  assert.match(tempo, /className="tempo-tab-pill"/);
+  assert.match(hook, /offsetLeft/);
+  assert.match(hook, /offsetWidth/);
+  assert.match(hook, /ResizeObserver/);
+
+  for (const source of [workflow, skills, tempo]) {
+    assert.match(source, /ArrowLeft/);
+    assert.match(source, /ArrowRight/);
+    assert.match(source, /aria-selected/);
+    assert.match(source, /tabIndex=/);
+  }
+
+  for (const className of [
+    "mode-toggle-pill",
+    "family-switch-pill",
+    "tempo-tab-pill",
+  ]) {
+    assert.match(
+      css,
+      new RegExp(
+        `\\.${className}\\s*\\{[^}]*pointer-events:\\s*none[^}]*left\\s*\\.4s[^}]*width\\s*\\.4s`,
+        "s",
+      ),
+    );
+  }
+});

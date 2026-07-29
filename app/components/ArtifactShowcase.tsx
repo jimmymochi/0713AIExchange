@@ -1,9 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from "react";
 import Image from "next/image";
 
 type Sheet = { name: string; rows: Array<Array<string | number>> };
+type ArtifactView = "mail" | "excel" | "pdf";
+
+const artifactTabs: Array<{
+  id: ArtifactView;
+  number: string;
+  label: string;
+}> = [
+  { id: "mail", number: "01", label: "完成通知" },
+  { id: "excel", number: "02", label: "Excel / 2 sheets" },
+  { id: "pdf", number: "03", label: "PDF / 3 pages" },
+];
 
 function excelRowClass(sheetIndex: number, rowIndex: number) {
   if (sheetIndex === 1 && rowIndex === 0) return "excel-header excel-header-gray";
@@ -67,13 +85,20 @@ function displayExcelCell(
 }
 
 export default function ArtifactShowcase() {
-  const [view, setView] = useState<"mail" | "excel" | "pdf">("mail");
+  const [view, setView] = useState<ArtifactView>("mail");
+  const [pill, setPill] = useState({ left: 0, width: 0 });
   const [zoomed, setZoomed] = useState(false);
   const [sheets, setSheets] = useState<Sheet[]>([]);
   const [sheetIndex, setSheetIndex] = useState(0);
   const [query, setQuery] = useState("");
   const [pdfPage, setPdfPage] = useState(1);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Record<ArtifactView, HTMLButtonElement | null>>({
+    mail: null,
+    excel: null,
+    pdf: null,
+  });
 
   useEffect(() => {
     fetch("/case/excel-data.json")
@@ -97,6 +122,43 @@ export default function ArtifactShowcase() {
     };
   }, [zoomed]);
 
+  useLayoutEffect(() => {
+    const activeButton = tabRefs.current[view];
+    if (!activeButton) return;
+
+    const syncPill = () => {
+      setPill({
+        left: activeButton.offsetLeft,
+        width: activeButton.offsetWidth,
+      });
+    };
+
+    syncPill();
+    const observer = new ResizeObserver(syncPill);
+    if (tabsRef.current) observer.observe(tabsRef.current);
+    artifactTabs.forEach(({ id }) => {
+      const button = tabRefs.current[id];
+      if (button) observer.observe(button);
+    });
+    return () => observer.disconnect();
+  }, [view]);
+
+  const handleTabKeyDown = (
+    event: ReactKeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
+    let nextIndex = index;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + artifactTabs.length) % artifactTabs.length;
+    else if (event.key === "ArrowRight") nextIndex = (index + 1) % artifactTabs.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = artifactTabs.length - 1;
+    else return;
+
+    event.preventDefault();
+    tabRefs.current[artifactTabs[nextIndex].id]?.focus();
+    tabRefs.current[artifactTabs[nextIndex].id]?.click();
+  };
+
   const rows = useMemo(() => {
     const source = sheets[sheetIndex]?.rows ?? [];
     const indexed = source.map((cells, sourceIndex) => ({ cells, sourceIndex }));
@@ -109,18 +171,37 @@ export default function ArtifactShowcase() {
 
   return (
     <div className="artifact-shell">
-      <div className="artifact-tabs" role="tablist" aria-label="成果類型">
-        {[
-          ["mail", "01", "完成通知"],
-          ["excel", "02", "Excel / 2 sheets"],
-          ["pdf", "03", "PDF / 3 pages"],
-        ].map(([id, number, label]) => (
+      <div
+        ref={tabsRef}
+        className="artifact-tabs"
+        role="tablist"
+        aria-label="成果類型"
+      >
+        <span
+          className="artifact-tab-pill"
+          style={{ left: pill.left, width: pill.width }}
+          aria-hidden="true"
+        />
+        {artifactTabs.map(({ id, number, label }, index) => (
           <button
+            ref={(button) => {
+              tabRefs.current[id] = button;
+            }}
             type="button"
             role="tab"
             aria-selected={view === id}
+            aria-controls={`artifact-panel-${id}`}
+            id={`artifact-tab-${id}`}
+            tabIndex={view === id ? 0 : -1}
             className={view === id ? "active" : ""}
-            onClick={() => setView(id as typeof view)}
+            onClick={(event) => {
+              setPill({
+                left: event.currentTarget.offsetLeft,
+                width: event.currentTarget.offsetWidth,
+              });
+              setView(id);
+            }}
+            onKeyDown={(event) => handleTabKeyDown(event, index)}
             key={id}
           >
             <span>{number}</span>{label}
@@ -130,7 +211,12 @@ export default function ArtifactShowcase() {
       </div>
 
       {view === "mail" && (
-        <div className="mail-view">
+        <div
+          className="mail-view"
+          id="artifact-panel-mail"
+          role="tabpanel"
+          aria-labelledby="artifact-tab-mail"
+        >
           <div className="viewer-toolbar">
             <span>AgentMail 完成通知（地址已遮蔽）</span>
             <button type="button" onClick={() => setZoomed(true)}>放大檢視 ↗</button>
@@ -148,7 +234,12 @@ export default function ArtifactShowcase() {
       )}
 
       {view === "excel" && (
-        <div className="excel-view">
+        <div
+          className="excel-view"
+          id="artifact-panel-excel"
+          role="tabpanel"
+          aria-labelledby="artifact-tab-excel"
+        >
           <div className="viewer-toolbar excel-toolbar">
             <div className="sheet-tabs" role="tablist" aria-label="Excel 工作表">
               {sheets.map((sheet, index) => (
@@ -201,7 +292,12 @@ export default function ArtifactShowcase() {
       )}
 
       {view === "pdf" && (
-        <div className="pdf-view">
+        <div
+          className="pdf-view"
+          id="artifact-panel-pdf"
+          role="tabpanel"
+          aria-labelledby="artifact-tab-pdf"
+        >
           <div className="pdf-thumbs" aria-label="PDF 頁面">
             {[1, 2, 3].map((page) => (
               <button

@@ -1,12 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import { workflowNodes } from "../data";
+import useSlidingPill from "./useSlidingPill";
+
+const workflowModes = ["failure", "success"] as const;
+type WorkflowMode = (typeof workflowModes)[number];
 
 export default function WorkflowExplorer() {
-  const [mode, setMode] = useState<"failure" | "success">("success");
+  const [mode, setMode] = useState<WorkflowMode>("success");
   const [selected, setSelected] = useState(1);
   const node = workflowNodes[selected];
+  const {
+    containerRef,
+    pill,
+    registerButton,
+    movePillTo,
+    focusButton,
+  } = useSlidingPill(mode, workflowModes);
+
+  const chooseMode = (next: WorkflowMode) => {
+    setMode(next);
+    if (next === "failure") setSelected(1);
+  };
+
+  const handleModeKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
+    let nextIndex = index;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + workflowModes.length) % workflowModes.length;
+    else if (event.key === "ArrowRight") nextIndex = (index + 1) % workflowModes.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = workflowModes.length - 1;
+    else return;
+
+    event.preventDefault();
+    const next = workflowModes[nextIndex];
+    chooseMode(next);
+    focusButton(next);
+  };
 
   return (
     <div className={`workflow-explorer ${mode}`}>
@@ -15,28 +48,47 @@ export default function WorkflowExplorer() {
           <span className="mono-label">00981A / 2026-07-28</span>
           <strong>{mode === "success" ? "修正後成功流程" : "原本失敗流程"}</strong>
         </div>
-        <div className="mode-toggle" role="group" aria-label="工作流狀態">
-          <button
-            type="button"
-            className={mode === "failure" ? "active" : ""}
-            onClick={() => {
-              setMode("failure");
-              setSelected(1);
-            }}
-          >
-            原本失敗
-          </button>
-          <button
-            type="button"
-            className={mode === "success" ? "active" : ""}
-            onClick={() => setMode("success")}
-          >
-            修正成功
-          </button>
+        <div
+          ref={containerRef}
+          className="mode-toggle"
+          role="tablist"
+          aria-label="工作流狀態"
+        >
+          <span
+            className="mode-toggle-pill"
+            style={{ left: pill.left, width: pill.width }}
+            aria-hidden="true"
+          />
+          {workflowModes.map((item, index) => (
+            <button
+              ref={registerButton(item)}
+              type="button"
+              role="tab"
+              id={`workflow-mode-${item}`}
+              aria-selected={mode === item}
+              aria-controls="workflow-mode-panel"
+              tabIndex={mode === item ? 0 : -1}
+              className={mode === item ? "active" : ""}
+              onClick={(event) => {
+                movePillTo(event.currentTarget);
+                chooseMode(item);
+              }}
+              onKeyDown={(event) => handleModeKeyDown(event, index)}
+              key={item}
+            >
+              {item === "failure" ? "原本失敗" : "修正成功"}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="workflow-track" aria-label="00981A 自動化工作流">
+      <div
+        className="workflow-track"
+        id="workflow-mode-panel"
+        role="tabpanel"
+        aria-labelledby={`workflow-mode-${mode}`}
+        aria-label="00981A 自動化工作流"
+      >
         {workflowNodes.map((item, index) => {
           const failed = mode === "failure" && index === 1;
           const blocked = mode === "failure" && index > 1;
