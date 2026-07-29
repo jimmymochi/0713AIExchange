@@ -1,23 +1,22 @@
 # 0731 AI 分享
 
-繁體中文互動網站，介紹 Antigravity CLI、OpenAI Codex、Agent Skills、TempoTerm，
-以及每天 18:30 自動產生 00981A ETF 持股分析報告的實際工作流。
+Jimmy（陳柏亘）的繁體中文互動分享網站。主線不是工具清單，而是三個真實專案中的判斷：
 
-## 線上網站
+- PDF 翻譯：做出原型後，為什麼選擇停止
+- 畢業學分自我審查：如何從學生真正的問題出發
+- 00981A 自動報告：如何把家人的重複工作變成可檢查的流程
 
-- [故事首頁](https://sapphirejimmy-0713aiexchange.static.hf.space/)
-- [互動教學](https://sapphirejimmy-0713aiexchange.static.hf.space/lab.html)
-- [TempoTerm 工具介紹](https://sapphirejimmy-0713aiexchange.static.hf.space/tempo.html)
+原有 Antigravity CLI、OpenAI Codex、Agent Skills 與 TempoTerm 教學保留在獨立工具頁。
 
-## 網站內容
+## 頁面
 
-- Antigravity CLI 與 Codex 安裝方式及定位比較
-- 安全的引導式 CLI 模擬器
-- 可追溯來源的 CLI 與 Codex Skills
-- 00981A 工作流失敗原因與修正流程
-- Excel、PDF 與 AgentMail 成果展示
-- TempoTerm 正體中文 AI 終端機工作區介紹
-- 桌機、手機與展示模式
+- `/`：個人實作故事、三個案例、問題畫布與外部作品嵌入
+- `/lab`：CLI 安裝、引導式終端模擬與 Skills
+- `/tempo`：TempoTerm 使用情境與選擇建議
+- `/lab.html`、`/tempo.html`：靜態主機相容別名
+
+集中設定位於 `site.config.json`，內容與公開界線記錄於 `docs/content-spec.md`。
+實際瀏覽器驗證與截圖記錄於 `docs/qa-browser-report.md`。
 
 ## 本機執行
 
@@ -28,20 +27,26 @@ npm install
 npm run dev
 ```
 
-正式建置與測試：
+完整驗證與 Hugging Face 靜態匯出：
 
 ```bash
-npm test
+npm run verify
 npm run export:hf
 ```
 
-## 主要來源
+匯出結果位於 `hf-static-output/`。
 
-- [Google Antigravity CLI](https://antigravity.google/docs/cli/features)
-- [OpenAI Codex CLI](https://developers.openai.com/codex/cli)
-- [TempoTerm](https://github.com/mukiwu/tempo-term)
+## 外部嵌入與資料界線
 
-## 注意事項
+首頁的畢業學分 Demo 與學期作品集來自獨立 Hugging Face Spaces，必須由訪客點擊後才載入。
 
-00981A 內容是 2026/07/28 的教學案例快照，不是即時投資資訊，也不構成投資建議。
-任何 API Key、Token 或個人資料都不應提交到此 repository。
+- 畢業學分 Demo 的登入與修課資料會傳到該 Space 的伺服器；本站不會宣稱資料只留在瀏覽器。
+- 試算結果可能有誤，尚未經教務處認證，也不適用所有學生；正式資格以校方審核為準。
+- 問題畫布只存在目前頁面的 React state，不會上傳或寫入儲存空間。
+- 私人講者筆記放在 `content-input/private-do-not-publish/`，該目錄已由 Git 排除。
+
+00981A 資料是 2026/07/28 的教學快照，不是即時投資資訊，也不構成投資建議。任何 API Key、Token、帳密或未遮蔽個資都不應提交到此 repository。
+
+## 部署
+
+Hugging Face Space 使用 Static SDK，將 `hf-static-output/` 的內容發佈即可。專案不需要資料庫、容器或常駐後端。
