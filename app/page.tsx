@@ -1,6 +1,7 @@
 import ArtifactShowcase from "./components/ArtifactShowcase";
 import ExternalEmbed from "./components/ExternalEmbed";
 import ReflectionPrompt from "./components/ReflectionPrompt";
+import SectionAnchor from "./components/SectionAnchor";
 import SiteNav from "./components/SiteNav";
 import WorkflowExplorer from "./components/WorkflowExplorer";
 import { publishedCases } from "./cases";
@@ -139,13 +140,13 @@ export default function Home() {
           <ol className="journey-line reveal">
             {publishedCases.map((project) => (
               <li key={project.id}>
-                <a href={`#case-${project.id === "workflow" ? "workflow" : project.id}`}>
+                <SectionAnchor href={`#case-${project.id === "workflow" ? "workflow" : project.id}`}>
                   <span>{project.order}</span>
                   <small>{project.period}</small>
                   <h3>{project.title}</h3>
                   <p>{project.role}</p>
                   <strong>{project.question}</strong>
-                </a>
+                </SectionAnchor>
               </li>
             ))}
           </ol>

@@ -525,3 +525,21 @@ test("keeps long-distance case anchor navigation interruptible", async () => {
     "Global smooth scrolling makes the three case-card jumps block wheel input",
   );
 });
+
+test("bypasses native fragment navigation for the three case cards", async () => {
+  const home = await readFile(new URL("app/page.tsx", root), "utf8");
+
+  assert.match(home, /import SectionAnchor from "\.\/components\/SectionAnchor"/);
+  assert.match(home, /<SectionAnchor href=\{`#case-/);
+
+  const sectionAnchor = await readFile(
+    new URL("app/components/SectionAnchor.tsx", root),
+    "utf8",
+  );
+  assert.match(sectionAnchor, /event\.preventDefault\(\)/);
+  assert.match(sectionAnchor, /window\.history\.pushState/);
+  assert.match(
+    sectionAnchor,
+    /scrollIntoView\(\{\s*behavior:\s*"auto",\s*block:\s*"start"\s*\}\)/,
+  );
+});
