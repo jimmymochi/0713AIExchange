@@ -122,7 +122,7 @@ export default function TutorialPage() {
         <Link className="tempo-pick-image reveal" href={siteConfig.routes.tempo} aria-label="前往 TempoTerm 完整介紹">
           <Image
             src="/tempo/tempo-codex-public.png"
-            width={1640}
+            width={1632}
             height={963}
             unoptimized
             alt="TempoTerm 中執行 Codex CLI 的去識別化工作區畫面"

@@ -63,6 +63,13 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.match(html, /每天都要自己找資料、拉表格/);
   assert.match(html, /AI 可以執行/);
   assert.match(html, /你真正想解決的是/);
+  assert.match(html, /<html[^>]+lang="zh-Hant-TW"/);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/sapphirejimmy-0713aiexchange\.static\.hf\.space\/"/,
+  );
+  assert.match(html, /<meta property="og:image:width" content="1731"/);
+  assert.match(html, /<meta property="og:image:height" content="909"/);
   assert.doesNotMatch(html, /Codex is working|Your site is taking shape/);
 });
 

@@ -7,6 +7,8 @@ const scenes = {
   codex: {
     label: "Codex CLI",
     image: "/tempo/tempo-codex-public.png",
+    width: 1632,
+    height: 963,
     alt: "TempoTerm 工作區中執行 Codex CLI，左右分別顯示工作階段與 Git 面板",
     caption: "Codex CLI 留在熟悉的終端機裡；TempoTerm 把工作階段、檔案與 Git 脈絡放到同一個視窗。",
     points: [
@@ -18,6 +20,8 @@ const scenes = {
   antigravity: {
     label: "Antigravity CLI",
     image: "/tempo/tempo-antigravity-public.png",
+    width: 1629,
+    height: 965,
     alt: "TempoTerm 工作區中執行 Antigravity CLI 並顯示正體中文 Skills 建議",
     caption: "同一個工作區也能執行 Antigravity CLI，正體中文輸出與長篇 Skill 清單都能保留清楚的閱讀節奏。",
     points: [
@@ -58,8 +62,8 @@ export default function TempoGallery() {
         <Image
           key={scene.image}
           src={scene.image}
-          width={1640}
-          height={963}
+          width={scene.width}
+          height={scene.height}
           unoptimized
           alt={scene.alt}
         />
