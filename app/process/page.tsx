@@ -4,22 +4,22 @@ import {
   buildIssues,
   buildStages,
   commitTrace,
-  conversationDecisions,
+  productionIdeas,
   toolGroups,
 } from "../process-data";
 import { siteConfig, siteUrl } from "../site";
 
 export const metadata: Metadata = {
-  title: "網站製作歷程｜從第一次討論到正式上線",
+  title: "網站製作歷程｜我的製作想法與使用工具",
   description:
-    "完整記錄 0731 AI 分享網站如何從需求訪談、內容規格、介面重構、測試部署，到正式站問題修正。",
+    "整理 0731 AI 分享網站的製作想法、實際使用工具、介面實作、測試部署與正式站問題修正。",
   alternates: {
     canonical: siteUrl(siteConfig.routes.processAlias),
   },
   openGraph: {
     title: `網站製作歷程｜${siteConfig.name}`,
     description:
-      "從原始想法、Jimmy 與 Codex 的討論，到遇到的問題、使用工具與公開站驗證。",
+      "Jimmy 如何決定網站要說什麼，並用哪些工具把想法做成可公開、可驗證的網站。",
     url: siteUrl(siteConfig.routes.processAlias),
   },
 };
@@ -51,8 +51,8 @@ export default function ProcessPage() {
               <span>怎麼一步一步做出來。</span>
             </h1>
             <p>
-              我一開始有很多內容，也有明確想法，但還不是一個能直接開工的網站。
-              這裡把需求怎麼被問清楚、哪些地方改過方向、程式怎麼驗證，以及上線後怎麼修正，全部留下來。
+              這裡不是逐字聊天紀錄。我整理的是自己怎麼決定網站要說什麼、
+              用哪些工具把想法做成畫面，以及每一步最後留下了什麼。
             </p>
             <div className="process-hero-actions">
               <a className="button button-primary" href="#process-flow">
@@ -74,14 +74,14 @@ export default function ProcessPage() {
               <span>● SHIPPED</span>
             </div>
             <div className="process-runlog-title">
-              <small>0713AIEXCHANGE / BUILD STORY</small>
+              <small>0731AIEXCHANGE / BUILD STORY</small>
               <strong>00 → 07</strong>
               <p>從原始任務到正式站回歸測試</p>
             </div>
             <ol>
-              <li><span>01</span><strong>訪談</strong><small>問題先行</small></li>
-              <li><span>02</span><strong>規格</strong><small>公開邊界</small></li>
-              <li><span>03</span><strong>重構</strong><small>故事與介面</small></li>
+              <li><span>01</span><strong>想法</strong><small>決定主線</small></li>
+              <li><span>02</span><strong>工具</strong><small>各有任務</small></li>
+              <li><span>03</span><strong>實作</strong><small>故事與介面</small></li>
               <li><span>04</span><strong>驗證</strong><small>正式站再測</small></li>
             </ol>
             <div className="process-runlog-lines" aria-hidden="true">
@@ -129,7 +129,7 @@ export default function ProcessPage() {
             <span className="section-index">02 / COMPLETE FLOW</span>
             <h2>從第一份需求，<br />到可以公開的網站。</h2>
             <p>
-              每一步都有一個問題、一段實作和一個可檢查的輸出。這也是我之後想重複使用的工作方式。
+              每一步都有一個問題、實際用到的工具和可檢查的輸出。這是這次真正走過的製作路線。
             </p>
           </header>
           <ol className="process-timeline">
@@ -145,6 +145,10 @@ export default function ProcessPage() {
                   <p>{stage.work}</p>
                 </div>
                 <div className="process-stage-output">
+                  <span>TOOLS</span>
+                  <ul className="process-stage-tools" aria-label={`${stage.title}使用的工具`}>
+                    {stage.tools.map((tool) => <li key={tool}>{tool}</li>)}
+                  </ul>
                   <span>OUTPUT</span>
                   <p>{stage.output}</p>
                 </div>
@@ -158,24 +162,27 @@ export default function ProcessPage() {
           id="process-conversation"
         >
           <header className="process-section-heading light reveal">
-            <span className="section-index">03 / CONVERSATION → DECISION</span>
-            <h2>我們不是一次<br />就把答案猜對。</h2>
+            <span className="section-index">03 / MY PRODUCTION LOGIC</span>
+            <h2>先決定怎麼說，<br />才決定怎麼做。</h2>
             <p>
-              訪談的價值不是問很多，而是每個回答都真的改變網站。以下保留最關鍵的七次轉折。
+              這七個想法決定了內容順序、案例篇幅、Demo 方式與畫面。它們比逐題列出我回答過什麼更接近真正的製作過程。
             </p>
           </header>
-          <ol className="conversation-track">
-            {conversationDecisions.map((item) => (
+          <ol className="idea-track">
+            {productionIdeas.map((item) => (
               <li className="reveal" key={item.order}>
-                <div className="conversation-speaker">
+                <div className="idea-statement">
                   <span>{item.order}</span>
-                  <strong>JIMMY</strong>
-                  <p>「{item.jimmy}」</p>
+                  <strong>{item.title}</strong>
+                  <p>{item.idea}</p>
                 </div>
-                <div className="conversation-arrow" aria-hidden="true">→</div>
-                <div className="conversation-result">
-                  <span>{item.effect}</span>
-                  <p>{item.decision}</p>
+                <div className="idea-reason">
+                  <span>WHY</span>
+                  <p>{item.reason}</p>
+                </div>
+                <div className="idea-result">
+                  <span>ON SITE</span>
+                  <p>{item.onSite}</p>
                 </div>
               </li>
             ))}
@@ -212,20 +219,26 @@ export default function ProcessPage() {
         <section className="process-tools story-section" id="process-tools">
           <header className="process-section-heading light reveal">
             <span className="section-index">05 / TOOL LEDGER</span>
-            <h2>工具很多。<br />每個只負責一段。</h2>
+            <h2>每個工具，<br />都有明確任務。</h2>
             <p>
-              我沒有找一個「自動完成全部」的工具。訪談、實作、檢查與部署各自需要不同能力。
+              這裡只列實際參與建站的工具，並寫清楚它做了什麼、留下什麼。Antigravity CLI、Skills 與 TempoTerm 是網站介紹的內容，不等於這次全部都有拿來建站。
             </p>
           </header>
           <ol className="tool-ledger">
             {toolGroups.map((group) => (
               <li className="reveal" key={group.order}>
                 <span>{group.order}</span>
-                <h3>{group.title}</h3>
+                <div className="tool-ledger-task">
+                  <h3>{group.title}</h3>
+                  <p>{group.use}</p>
+                </div>
                 <ul aria-label={`${group.title}使用的工具`}>
                   {group.tools.map((tool) => <li key={tool}>{tool}</li>)}
                 </ul>
-                <p>{group.detail}</p>
+                <div className="tool-ledger-output">
+                  <small>留下什麼</small>
+                  <p>{group.output}</p>
+                </div>
               </li>
             ))}
           </ol>
@@ -236,7 +249,7 @@ export default function ProcessPage() {
             <span className="section-index">06 / TRACEABLE WORK</span>
             <h2>討論會改變。<br />Git 留下每次選擇。</h2>
             <p>
-              大改版沒有塞進一個模糊的提交。規格、工程、內容、測試、視覺與正式站修正分開留下紀錄。
+              規格、工程、內容、測試、視覺與正式站修正分開提交。回頭看紀錄時，可以知道每次改動在處理哪一件事。
             </p>
           </header>
           <div className="commit-console reveal">

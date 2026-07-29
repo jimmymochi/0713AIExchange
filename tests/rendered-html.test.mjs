@@ -81,20 +81,26 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.doesNotMatch(html, /Codex is working|Your site is taking shape/);
 });
 
-test("renders the complete website build process and discussion decisions", async () => {
+test("renders the production ideas, actual tools, and build outputs", async () => {
   const response = await render("/process");
   assert.equal(response.status, 200);
 
   const html = await response.text();
   assert.match(html, /這個網站/);
   assert.match(html, /怎麼一步一步做出來/);
-  assert.match(html, /一次只問一題/);
-  assert.match(html, /我爸覺得每天都要自己去網站找資料、拉表格/);
-  assert.match(html, /不要有可以輸入的文字框/);
+  assert.match(html, /先決定怎麼說/);
+  assert.match(html, /先講人的判斷/);
+  assert.match(html, /案例不平均分配/);
+  assert.match(html, /我爸每天都要找資料、拉表格/);
+  assert.match(html, /互動只做現場需要的事/);
+  assert.match(html, /每個工具/);
+  assert.match(html, /都有明確任務/);
   assert.match(html, /Entry not found/);
   assert.match(html, /Grill Me/);
-  assert.match(html, /OpenAI Codex/);
+  assert.match(html, /Codex Desktop/);
+  assert.match(html, /GitHub Actions/);
   assert.match(html, /Antigravity CLI/);
+  assert.match(html, /是網站介紹的內容，不等於這次全部都有拿來建站/);
   assert.match(html, /Playwright/);
   assert.match(html, /Hugging Face Static Space/);
   assert.match(html, /完整決策與驗證脈絡/);
@@ -215,7 +221,8 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
     new URL("hf-static-output/README.md", root),
     "utf8",
   );
-  assert.match(spaceReadme, /^---\r?\ntitle: 0731 AI 分享/m);
+  assert.match(spaceReadme, /^---\r?\ntitle: 0731AIExchange/m);
+  assert.match(spaceReadme, /^# 0731AIExchange$/m);
   assert.match(spaceReadme, /\ncolorFrom: gray\r?\ncolorTo: gray\r?\n/);
   assert.match(spaceReadme, /\nsdk: static\r?\n/);
   assert.match(spaceReadme, /\napp_file: index\.html\r?\n/);

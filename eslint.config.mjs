@@ -18,6 +18,7 @@ const eslintConfig = defineConfig([
     "hf-publish-final/**",
     "hf-static/**",
     "hf-static-output/**",
+    "github-pages-output/**",
     "next-env.d.ts",
   ]),
 ]);

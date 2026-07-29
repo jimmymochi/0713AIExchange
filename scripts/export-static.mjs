@@ -56,7 +56,7 @@ await exportRoute(config.routes.tempo, "tempo.html");
 await writeFile(
   resolve(output, "README.md"),
   `---
-title: ${config.name}
+title: ${config.huggingFaceSpaceTitle}
 emoji: ⚡
 colorFrom: gray
 colorTo: gray
@@ -65,12 +65,12 @@ app_file: index.html
 pinned: false
 ---
 
-# ${config.name}
+# ${config.huggingFaceSpaceTitle}
 
 從 PDF 翻譯、畢業學分到 00981A 自動化，整理 Jimmy 如何發現問題、做出原型、驗證成果，並判斷什麼值得繼續。
 
 - 三個 AI 實作案例與個人歷程
-- 從需求訪談、討論決策到部署驗證的網站製作紀錄
+- 製作想法、實際建站工具與部署驗證的網站製作紀錄
 - 不蒐集輸入的現場引導提問
 - Antigravity CLI、OpenAI Codex、Skills 與 TempoTerm 教學
 - 可檢查的 00981A 工作流快照
