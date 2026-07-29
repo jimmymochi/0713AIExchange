@@ -56,8 +56,8 @@ await writeFile(
   `---
 title: ${config.name}
 emoji: ⚡
-colorFrom: yellow
-colorTo: purple
+colorFrom: gray
+colorTo: gray
 sdk: static
 app_file: index.html
 pinned: false
@@ -68,7 +68,7 @@ pinned: false
 從 PDF 翻譯、畢業學分到 00981A 自動化，整理 Jimmy 如何發現問題、做出原型、驗證成果，並判斷什麼值得繼續。
 
 - 三個 AI 實作案例與個人歷程
-- 問題發現與驗證畫布
+- 不蒐集輸入的現場引導提問
 - Antigravity CLI、OpenAI Codex、Skills 與 TempoTerm 教學
 - 可檢查的 00981A 工作流快照
 `,

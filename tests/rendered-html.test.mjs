@@ -170,8 +170,11 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
     "utf8",
   );
   assert.match(spaceReadme, /^---\r?\ntitle: 0731 AI 分享/m);
+  assert.match(spaceReadme, /\ncolorFrom: gray\r?\ncolorTo: gray\r?\n/);
   assert.match(spaceReadme, /\nsdk: static\r?\n/);
   assert.match(spaceReadme, /\napp_file: index\.html\r?\n/);
+  assert.match(spaceReadme, /不蒐集輸入的現場引導提問/);
+  assert.doesNotMatch(spaceReadme, /驗證畫布/);
 });
 
 test("uses configured canonical routes and valid internal static links", async () => {
