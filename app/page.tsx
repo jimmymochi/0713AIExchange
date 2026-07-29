@@ -62,7 +62,7 @@ export default function Home() {
                 <a className="button button-primary" href="#journey">
                   從第一個專案開始 <span>↓</span>
                 </a>
-                <a className="button button-secondary" href={siteConfig.routes.lab}>
+                <a className="button button-secondary" href={siteConfig.routes.labAlias}>
                   工具實驗室 <span>↗</span>
                 </a>
               </div>
@@ -348,13 +348,13 @@ export default function Home() {
             </p>
           </div>
           <div className="tools-bridge-links reveal">
-            <a href={siteConfig.routes.lab}>
+            <a href={siteConfig.routes.labAlias}>
               <span>01</span>
               <strong>進入工具實驗室</strong>
               <p>安裝、終端模擬、Skills 來源與風險。</p>
               <i>→</i>
             </a>
-            <a href={siteConfig.routes.tempo}>
+            <a href={siteConfig.routes.tempoAlias}>
               <span>02</span>
               <strong>認識 TempoTerm</strong>
               <p>先學終端機，再決定是否需要整合工作區。</p>

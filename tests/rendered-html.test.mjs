@@ -65,6 +65,9 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.match(html, /你真正想解決的是/);
   assert.match(html, /不用作答 · 先想 30 秒/);
   assert.match(html, /第一個浮現在腦中的問題/);
+  assert.match(html, /href="\/lab\.html"/);
+  assert.match(html, /href="\/tempo\.html"/);
+  assert.doesNotMatch(html, /href="\/(?:lab|tempo)"/);
   assert.doesNotMatch(html, /<textarea\b|<input\b/i);
   assert.doesNotMatch(html, /複製我的問題畫布|清除內容/);
   assert.match(html, /<html[^>]+lang="zh-Hant-TW"/);
@@ -128,8 +131,12 @@ test("renders the tutorial with guided terminal and traceable skills", async () 
   assert.match(html, /Codex/);
   assert.match(html, /Jimmy 客製/);
   assert.match(html, /TempoTerm/);
-  assert.match(html, /href="\/tempo"/);
-  assert.doesNotMatch(html, /href="\/tempo\.html"/);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/sapphirejimmy-0713aiexchange\.static\.hf\.space\/lab\.html"/,
+  );
+  assert.match(html, /href="\/tempo\.html"/);
+  assert.doesNotMatch(html, /href="\/tempo"/);
 
   const skillSource = await readFile(new URL("app/data.ts", root), "utf8");
   assert.match(skillSource, /Grill Me/);
@@ -148,7 +155,12 @@ test("renders the TempoTerm guide with a terminal-first recommendation", async (
   assert.match(html, /Antigravity CLI/);
   assert.match(html, /mukiwu\/tempo-term/);
   assert.match(html, /Apache-2\.0/);
-  assert.match(html, /href="\/lab"/);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/sapphirejimmy-0713aiexchange\.static\.hf\.space\/tempo\.html"/,
+  );
+  assert.match(html, /href="\/lab\.html"/);
+  assert.doesNotMatch(html, /href="\/lab"/);
 });
 
 test("exports clean routes, compatibility aliases, and discovery files", async () => {
@@ -183,6 +195,14 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
   );
   assert.match(staticHeaders, /\/assets\/\*/);
   assert.match(staticHeaders, /max-age=31536000, immutable/);
+
+  const sitemap = await readFile(
+    new URL("hf-static-output/sitemap.xml", root),
+    "utf8",
+  );
+  assert.match(sitemap, /\/lab\.html<\/loc>/);
+  assert.match(sitemap, /\/tempo\.html<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/(?:lab|tempo)<\/loc>/);
 });
 
 test("uses configured canonical routes and valid internal static links", async () => {

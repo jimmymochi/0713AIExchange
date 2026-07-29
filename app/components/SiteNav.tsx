@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { siteConfig } from "../site";
 
@@ -108,29 +107,29 @@ export default function SiteNav({ page, sectionIds }: Props) {
         <span style={{ width: `${progress}%` }} />
       </div>
       <nav className="site-nav" aria-label="主要導覽">
-        <Link className="brand" href={siteConfig.routes.home}>
+        <a className="brand" href={siteConfig.routes.home}>
           <span className="brand-mark">AI</span>
           <span className="brand-copy">
             <strong>{siteConfig.name}</strong>
             <small>IDEA × JUDGMENT × PROOF</small>
           </span>
-        </Link>
+        </a>
         <div className="nav-center" aria-label="頁面切換">
-          <Link className={page === "home" ? "active" : ""} href={siteConfig.routes.home}>
+          <a className={page === "home" ? "active" : ""} href={siteConfig.routes.home}>
             實作故事
-          </Link>
-          <Link
+          </a>
+          <a
             className={page === "tutorial" ? "active" : ""}
-            href={siteConfig.routes.lab}
+            href={siteConfig.routes.labAlias}
           >
             工具實驗室
-          </Link>
-          <Link
+          </a>
+          <a
             className={page === "tempo" ? "active" : ""}
-            href={siteConfig.routes.tempo}
+            href={siteConfig.routes.tempoAlias}
           >
             TempoTerm
-          </Link>
+          </a>
         </div>
         <div className="nav-actions">
           <span className="active-section">{active.replaceAll("-", " / ")}</span>

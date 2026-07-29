@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import SiteNav from "../components/SiteNav";
 import TempoGallery from "../components/TempoGallery";
 import { siteConfig, siteUrl } from "../site";
@@ -7,7 +6,7 @@ import { siteConfig, siteUrl } from "../site";
 export const metadata: Metadata = {
   title: "TempoTerm｜AI 原生終端機工作區",
   description: "認識 TempoTerm：把終端機、檔案、Git 與 AI CLI 工作階段放進同一個正體中文工作區。",
-  alternates: { canonical: siteUrl(siteConfig.routes.tempo) },
+  alternates: { canonical: siteUrl(siteConfig.routes.tempoAlias) },
 };
 
 const tempoSections = ["tempo-top", "learning-path", "workspace", "real-use", "decision", "tempo-start"];
@@ -133,7 +132,7 @@ export default function TempoPage() {
             採 Apache-2.0 授權；本頁為使用心得與教學介紹，與專案作者無隸屬關係，名稱與標誌仍依原專案 NOTICE 規範。
           </p>
         </div>
-        <Link className="back-home" href={siteConfig.routes.lab}>← 回到 CLI 互動教學</Link>
+        <a className="back-home" href={siteConfig.routes.labAlias}>← 回到 CLI 互動教學</a>
       </section>
 
       <footer className="site-footer">

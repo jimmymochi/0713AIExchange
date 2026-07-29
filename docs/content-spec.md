@@ -41,9 +41,10 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 ## 資訊架構
 
 - `/`：個人故事、三個案例、責任分工、引導提問、作品集與收束。
-- `/lab`：Antigravity CLI、Codex、Skills 與安全操作教學。
-- `/tempo`：TempoTerm 深度介紹。
-- 靜態輸出同時提供 `/lab/index.html`、`/tempo/index.html`、`lab.html`、`tempo.html`。
+- `/lab.html`：Antigravity CLI、Codex、Skills 與安全操作教學。
+- `/tempo.html`：TempoTerm 深度介紹。
+- 建置來源路由仍為 `/lab`、`/tempo`；Hugging Face Static Space 的公開連結使用 `.html`，因為它不會自動解析資料夾索引。
+- 靜態輸出同時保留 `/lab/index.html`、`/tempo/index.html` 作為完整路徑相容檔。
 
 ## 案例規格
 
@@ -167,14 +168,14 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 - 移除無法在 production runtime 啟動的 Dockerfile，README 改以 Hugging Face Static Space 為正式部署方式。
 - 集中品牌、日期、路由、外部 Space、Repository 與聯絡資訊。
 - CopyButton 提供 Clipboard API fallback、錯誤訊息與可存取狀態。
-- 統一 canonical route 與靜態 alias。
+- canonical 與站內導覽統一使用 Hugging Face 可直接開啟的 `.html` 路徑。
 
 ## 測試與驗收
 
 - `npm run lint`、`npm run typecheck`、`npm test`、`npm run export:hf` 全數通過。
 - published 案例具備必填內容；hidden 不輸出；不得有 `【請填寫】`。
 - 掃描常見 Token、Cookie、Authorization、Email、學號與本機路徑。
-- 驗證首頁、`/lab`、`/tempo` 與所有靜態 alias。
+- 驗證建置來源路由 `/lab`、`/tempo`，以及公開路徑 `/lab.html`、`/tempo.html`。
 - Playwright 驗證導覽、Skills 篩選、終端模擬、工作流、成果燈箱、兩個 iframe gate、引導提問與展示模式。
 - 390px 無水平溢出；鍵盤、焦點、Escape、reduced motion 與狀態提示可用。
 
@@ -183,7 +184,7 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 - 首頁依序呈現核心主張、三個案例、AI／人的責任分工、引導提問、其他作品與收束問題。
 - PDF 案例不出現虛構 Demo；學分與 00981A 限制在首次閱讀時可見。
 - 學分 Space 與學期作品 Space 在使用者點擊前都不建立 iframe。
-- `/`、`/lab`、`/tempo` 在本機與靜態輸出可開啟，`.html` 相容別名存在。
+- `/`、`/lab.html`、`/tempo.html` 在 Hugging Face Static Space 可直接開啟，且站內不得連到會回傳 `Entry not found` 的無副檔名路徑。
 - 私密講者筆記、原始未遮蔽圖片、`.env` 與 build cache 不出現在 Git 或 `hf-static-output/`。
 - 所有 published 案例必填欄位非空，非 published 案例不被包裝成完成品。
 - TypeScript、ESLint、render tests、static export tests 與 Secret 掃描全部通過。
