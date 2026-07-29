@@ -38,12 +38,40 @@ export default function TempoPage() {
           </div>
           <p className="tempo-verdict"><strong>本站建議</strong><span>初學：Windows Terminal / PowerShell</span><span>進階：TempoTerm</span></p>
         </div>
-        <div className="tempo-hero-visual reveal" aria-label="TempoTerm 整合工作區概念圖">
+        <div
+          className="tempo-hero-visual reveal"
+          role="img"
+          aria-label="TempoTerm 將終端機、檔案、Git 與 AI 工作階段串進同一個工作區"
+        >
+          <svg
+            className="tempo-route"
+            viewBox="0 0 620 500"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <rect className="tempo-route-line" x="46" y="48" width="528" height="404" rx="58" />
+            <rect className="tempo-route-progress" x="46" y="48" width="528" height="404" rx="58" pathLength="100" />
+          </svg>
+          <span className="tempo-route-dot" aria-hidden="true" />
           <div className="tempo-orbit orbit-terminal"><span>01</span>TERMINAL</div>
           <div className="tempo-orbit orbit-files"><span>02</span>FILES</div>
           <div className="tempo-orbit orbit-git"><span>03</span>GIT</div>
           <div className="tempo-orbit orbit-ai"><span>04</span>AI SESSIONS</div>
-          <div className="tempo-core"><small>ONE WINDOW</small><strong>Tempo<br />Term</strong><span>正體中文 AI CLI 工作區</span></div>
+          <div className="tempo-core">
+            <div className="tempo-core-bar" aria-hidden="true">
+              <i /><i /><i />
+              <span>WORKSPACE</span>
+            </div>
+            <div className="tempo-core-copy">
+              <small>ONE WINDOW</small>
+              <strong>Tempo<br />Term</strong>
+              <span>正體中文 AI CLI 工作區</span>
+            </div>
+            <div className="tempo-core-status">
+              <span><i aria-hidden="true" />4 TOOLS CONNECTED</span>
+              <strong>LIVE</strong>
+            </div>
+          </div>
         </div>
       </section>
 

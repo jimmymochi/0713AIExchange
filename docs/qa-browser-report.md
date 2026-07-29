@@ -14,6 +14,7 @@
 | 製作歷程手機版 | 390 × 844 viewport 進入手機 breakpoint；頁面與內容寬度均為 390px，無水平溢出 | 通過 |
 | 首頁至教學頁 | 正式站實際點擊後到達 `/lab.html`，無 `Entry not found` | 通過 |
 | 教學頁至 TempoTerm | 正式站實際點擊後到達 `/tempo.html`，無 `Entry not found` | 通過 |
+| TempoTerm 首屏動態 | 8 秒路徑光點持續移動，工具節點依序亮起；390px 改為垂直流程且無水平溢出；reduced-motion 為單次近乎靜止 | 通過 |
 | Skills 平台與來源篩選 | 平台具 `role="tab"`／`aria-selected`；來源具 `aria-pressed`；篩選後詳情同步，無結果時顯示狀態文字 | 通過 |
 | 終端模擬器 | 選擇「唯讀分析資料夾」，狀態由 `SAFE DEMO` 到 `COMPLETE`，輸出四行預期結果 | 通過 |
 | 學分 Demo 閘門 | 點擊前 0 個 iframe；點擊後來源為 `jinjia0618-utaipei-student.hf.space`；卸載後回到 0 | 通過 |

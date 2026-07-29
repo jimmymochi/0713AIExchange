@@ -181,6 +181,11 @@ test("renders the TempoTerm guide with a terminal-first recommendation", async (
   assert.match(html, /Antigravity CLI/);
   assert.match(html, /mukiwu\/tempo-term/);
   assert.match(html, /Apache-2\.0/);
+  assert.match(html, /class="tempo-route-progress"/);
+  assert.match(html, /class="tempo-route-dot"/);
+  assert.match(html, /4 TOOLS CONNECTED/);
+  assert.match(html, /role="img"/);
+  assert.match(html, /終端機、檔案、Git 與 AI 工作階段串進同一個工作區/);
   assert.match(
     html,
     /<link rel="canonical" href="https:\/\/sapphirejimmy-0713aiexchange\.static\.hf\.space\/tempo\.html"/,
@@ -409,6 +414,9 @@ test("ships accessibility and motion safeguards in the design system", async () 
   );
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /@keyframes tempo-route-tour/);
+  assert.match(css, /@keyframes tempo-node-focus/);
+  assert.match(css, /\.tempo-route,\s*\.tempo-route-dot\s*\{\s*display:\s*none/);
   assert.match(showcase, /role="dialog"/);
   assert.match(showcase, /aria-modal="true"/);
   assert.match(showcase, /event\.key === "Escape"/);
