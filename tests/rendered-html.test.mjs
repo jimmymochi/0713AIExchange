@@ -53,7 +53,7 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /AI 做得越快/);
+  assert.match(html, /AI 不只回答/);
   assert.match(html, /PDF 翻譯/);
   assert.match(html, /畢業學分/);
   assert.match(html, /00981A/);
@@ -63,6 +63,10 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.match(html, /每天都要自己找資料、拉表格/);
   assert.match(html, /AI 可以執行/);
   assert.match(html, /你真正想解決的是/);
+  assert.match(html, /不用作答 · 先想 30 秒/);
+  assert.match(html, /第一個浮現在腦中的問題/);
+  assert.doesNotMatch(html, /<textarea\b|<input\b/i);
+  assert.doesNotMatch(html, /複製我的問題畫布|清除內容/);
   assert.match(html, /<html[^>]+lang="zh-Hant-TW"/);
   assert.match(
     html,
@@ -227,7 +231,7 @@ test("ships all case-study assets and complete spreadsheet data", async () => {
     "docs/qa-screenshots/home-mobile.png",
     "docs/qa-screenshots/credit-case.png",
     "docs/qa-screenshots/presenter-mode.png",
-    "docs/qa-screenshots/idea-canvas.png",
+    "docs/qa-screenshots/question-prompt.png",
     "docs/qa-screenshots/lab-interactions.png",
   ];
   await Promise.all(assetPaths.map((path) => access(new URL(path, root))));

@@ -1,6 +1,6 @@
 import ArtifactShowcase from "./components/ArtifactShowcase";
 import ExternalEmbed from "./components/ExternalEmbed";
-import ProblemCanvas from "./components/ProblemCanvas";
+import ReflectionPrompt from "./components/ReflectionPrompt";
 import SiteNav from "./components/SiteNav";
 import WorkflowExplorer from "./components/WorkflowExplorer";
 import { publishedCases } from "./cases";
@@ -14,7 +14,7 @@ const homeSections = [
   "case-credits",
   "case-workflow",
   "responsibility",
-  "canvas",
+  "question",
   "portfolio",
   "tools",
   "closing",
@@ -32,12 +32,12 @@ export default function Home() {
             <div className="hero-copy reveal">
               <p className="eyebrow">
                 <span className="live-dot" />
-                {siteConfig.durationMinutes} 分鐘 · 個人 AI 實作分享
+                從問題到交付 · {siteConfig.durationMinutes} 分鐘實作分享
               </p>
               <h1>
-                <span className="hero-title-line">AI 做得越快，</span>
+                <span className="hero-title-line">AI 不只回答。</span>
                 <span className="hero-title-line hero-title-accent">
-                  人更要知道為什麼。
+                  人要決定做什麼。
                 </span>
               </h1>
               <p className="hero-lead">
@@ -68,21 +68,37 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="hero-console decision-console reveal" aria-label="三個案例的決策摘要">
+            <div className="hero-console reveal" aria-label="00981A 自動化工作流摘要">
               <div className="console-top">
                 <span className="chrome-dots"><i /><i /><i /></span>
-                <span>DECISION LOG</span>
-                <span className="console-live">● VERIFIED</span>
+                <span>LIVE WORKFLOW</span>
+                <span className="console-live">● ACTIVE</span>
               </div>
-              <div className="decision-console-body">
-                <p><span>01</span><strong>PDF 翻譯</strong><em>STOP</em></p>
-                <p><span>02</span><strong>畢業學分</strong><em>BUILD</em></p>
-                <p><span>03</span><strong>00981A</strong><em>VERIFY</em></p>
+              <div className="console-focus">
+                <div>
+                  <span>CASE STUDY / 00981A</span>
+                  <strong>18:30</strong>
+                  <small>每個交易日自動啟動</small>
+                </div>
+                <div className="console-state">
+                  <span><i />資料取得</span>
+                  <span><i />51 / 51 驗證</span>
+                  <span><i />Excel + PDF</span>
+                </div>
               </div>
-              <div className="decision-console-question">
-                <small>THE QUESTION</small>
-                <p>當 AI 可以快速幫你實現很多東西，</p>
-                <strong>你真正想解決的是什麼問題？</strong>
+              <div className="console-flow">
+                {["排程", "PCF", "比對", "Excel", "PDF", "Mail"].map((item, index) => (
+                  <div key={item}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <i />
+                    <strong>{item}</strong>
+                  </div>
+                ))}
+              </div>
+              <div className="console-log">
+                <p><span>18:34:19</span> source / 00981A / fetching</p>
+                <p><span>18:44:03</span> retry / validated 51 of 51</p>
+                <p className="console-success"><span>18:44:27</span> delivered / report complete ✓</p>
               </div>
             </div>
           </div>
@@ -282,17 +298,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="story-section canvas-section" id="canvas">
+        <section className="story-section reflection-section" id="question">
           <div className="section-heading reveal">
             <div>
-              <span className="section-index">05 / YOUR PROBLEM</span>
-              <h2>先別急著選工具。<br />寫下真正的問題。</h2>
+              <span className="section-index">05 / YOUR QUESTION</span>
+              <h2>先別急著回答。<br />停一下，想想看。</h2>
             </div>
             <p>
-              用六個欄位把想法說清楚。填不出驗證方式或停止條件，也是一個值得注意的答案。
+              這一段不用填表，也沒有標準答案。我只想帶大家用幾個問題，
+              想想自己真正想處理的是什麼。
             </p>
           </div>
-          <div className="reveal"><ProblemCanvas /></div>
+          <ReflectionPrompt />
         </section>
 
         <section className="story-section portfolio-section" id="portfolio">
@@ -351,8 +368,8 @@ export default function Home() {
             <span className="section-index">08 / LEAVE WITH THIS</span>
             <p>AI 已經可以快速幫你實現很多東西。</p>
             <h2>你真正想解決的是<br />什麼問題？</h2>
-            <a className="button button-dark" href="#canvas">
-              回到我的問題畫布 <span>↑</span>
+            <a className="button button-dark" href="#question">
+              回到提問環節 <span>↑</span>
             </a>
           </div>
         </section>

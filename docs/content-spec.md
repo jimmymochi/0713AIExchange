@@ -24,7 +24,7 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 4. 畢業學分：從學生的真實困難出發，把資料轉成能理解的結果。
 5. 00981A：從家人的重複工作出發，加入資料驗證、錯誤處理與交付。
 6. 整理 AI 與人的責任分工。
-7. 讓觀眾使用問題畫布思考自己的題目。
+7. 用純展示的提問環節，帶觀眾停下來思考自己的題目。
 8. 串接完整學期作品集，再導向工具實驗室。
 9. 以核心問題收束。
 
@@ -35,12 +35,12 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 - 畢業學分：15 分鐘
 - 00981A：15 分鐘
 - 工具實驗室：8 分鐘
-- 問題畫布與收束：6 分鐘
+- 引導提問與收束：6 分鐘
 - 緩衝：3 分鐘
 
 ## 資訊架構
 
-- `/`：個人故事、三個案例、責任分工、問題畫布、作品集與收束。
+- `/`：個人故事、三個案例、責任分工、引導提問、作品集與收束。
 - `/lab`：Antigravity CLI、Codex、Skills 與安全操作教學。
 - `/tempo`：TempoTerm 深度介紹。
 - 靜態輸出同時提供 `/lab/index.html`、`/tempo/index.html`、`lab.html`、`tempo.html`。
@@ -103,18 +103,15 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 - 學期作品的細項素材保留在既有 Space；本 repository 不重複下載大型影片與 PDF。
 - 若日後補素材，建議檔名為 `content-input/assets/pdf-translator/before-after-redacted.*`、`content-input/assets/credit-calculator/demo-fake-data.*`，且需先確認不含帳密、學號、成績或本機路徑。
 
-## 問題畫布
+## 引導提問
 
-使用者輸入：
+提問環節只用來帶領現場觀眾思考，不要求作答，也不提供文字輸入、複製或儲存功能。
 
-- 我看見的問題
-- 誰會遇到這個問題
-- 現在怎麼處理
-- 我的做法有什麼不同
-- 如何驗證
-- 何時停止
+- 哪一件事一直讓你覺得麻煩？
+- 如果 AI 今天就能做出來，誰真的會需要？
+- 你要看到什麼，才會相信它真的有用？
 
-所有內容只保留在目前瀏覽器頁面，不上傳、不持久化。支援一鍵複製文字摘要與明確錯誤狀態。
+畫面提示觀眾先想 30 秒，記住第一個浮現的問題，再由講者接續分享。
 
 ## 個人實作原則
 
@@ -127,7 +124,7 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 5. 看見什麼證據才算有效？
 6. 出現什麼情況就應該停止？
 
-首頁的責任分工與問題畫布共同承擔這段內容，不另做抽象口號區塊。
+首頁的責任分工與引導提問共同承擔這段內容，不另做抽象口號區塊。
 
 ## 展示模式
 
@@ -178,19 +175,19 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 - published 案例具備必填內容；hidden 不輸出；不得有 `【請填寫】`。
 - 掃描常見 Token、Cookie、Authorization、Email、學號與本機路徑。
 - 驗證首頁、`/lab`、`/tempo` 與所有靜態 alias。
-- Playwright 驗證導覽、Skills 篩選、終端模擬、工作流、成果燈箱、兩個 iframe gate、問題畫布與展示模式。
+- Playwright 驗證導覽、Skills 篩選、終端模擬、工作流、成果燈箱、兩個 iframe gate、引導提問與展示模式。
 - 390px 無水平溢出；鍵盤、焦點、Escape、reduced motion 與狀態提示可用。
 
 ## 驗收標準
 
-- 首頁依序呈現核心主張、三個案例、AI／人的責任分工、問題畫布、其他作品與收束問題。
+- 首頁依序呈現核心主張、三個案例、AI／人的責任分工、引導提問、其他作品與收束問題。
 - PDF 案例不出現虛構 Demo；學分與 00981A 限制在首次閱讀時可見。
 - 學分 Space 與學期作品 Space 在使用者點擊前都不建立 iframe。
 - `/`、`/lab`、`/tempo` 在本機與靜態輸出可開啟，`.html` 相容別名存在。
 - 私密講者筆記、原始未遮蔽圖片、`.env` 與 build cache 不出現在 Git 或 `hf-static-output/`。
 - 所有 published 案例必填欄位非空，非 published 案例不被包裝成完成品。
 - TypeScript、ESLint、render tests、static export tests 與 Secret 掃描全部通過。
-- Playwright 實際操作涵蓋導覽、Skills、終端模擬、問題畫布、展示模式、燈箱與 390px 響應式版面。
+- Playwright 實際操作涵蓋導覽、Skills、終端模擬、引導提問、展示模式、燈箱與 390px 響應式版面。
 - QA 截圖保存於 `docs/qa-screenshots/`，不含帳密或學生資料。
 
 ## 實作順序
@@ -198,7 +195,7 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 1. 內容規格、集中設定與案例資料。
 2. 建置、路由、Docker、CopyButton 與機密掃描基線。
 3. 首頁故事線與三個案例。
-4. 外部 Space、問題畫布與展示模式。
+4. 外部 Space、引導提問與展示模式。
 5. 隱私、SEO、效能、無障礙與文案審查。
 6. 靜態輸出、瀏覽器測試、README 與交付。
 
@@ -207,6 +204,6 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 1. `docs: add content and implementation specification`
 2. `fix: stabilize build routes and static export`
 3. `feat: add personal journey and project cases`
-4. `feat: add external demos and problem canvas`
+4. `feat: add external demos and guided reflection`
 5. `test: expand content export and browser validation`
 6. `docs: update usage privacy and deployment guide`

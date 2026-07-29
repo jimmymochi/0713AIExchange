@@ -2,7 +2,8 @@
 
 驗證日期：2026-07-29  
 工具：Codex Browser 的 Playwright 介面  
-測試網址：本機 `http://localhost:3000`
+測試網址：本機 `http://localhost:3005`
+測試尺寸：桌機 `1280 × 720`、手機 `390 × 844`
 
 ## 驗證結果
 
@@ -15,15 +16,14 @@
 | 終端模擬器 | 選擇「唯讀分析資料夾」，狀態由 `SAFE DEMO` 到 `COMPLETE`，輸出四行預期結果 | 通過 |
 | 學分 Demo 閘門 | 點擊前 0 個 iframe；點擊後來源為 `jinjia0618-utaipei-student.hf.space`；卸載後回到 0 | 通過 |
 | 學期作品集閘門 | 點擊後來源為 `sapphirejimmy-seismology-final.static.hf.space`；卸載後回到 0 | 通過 |
-| 問題畫布 | 可輸入、完成度更新、複製按鈕顯示「已複製」 | 通過 |
+| 引導提問 | 顯示 30 秒思考提示與三個引導問題；頁面不存在文字輸入框 | 通過 |
 | 展示模式 URL | `?present=1` 初次載入即為 `aria-pressed="true"` 並顯示計時提示 | 通過 |
 | 展示模式鍵盤 | 方向鍵由 `top` 切到 `thesis`；Escape 關閉 | 通過 |
-| 輸入框方向鍵 | 文字框位於可視範圍並取得焦點時，方向鍵不改變章節或捲動位置 | 通過 |
 | Lightbox | 開啟後焦點位於「關閉」按鈕且 body 鎖定；Escape 後 dialog 移除 | 通過 |
 | 390px 手機版 | `scrollWidth === clientWidth === 375`；首屏 Grid 同寬；0 張破圖 | 通過 |
 | 主控台 | 三頁與互動流程結束後沒有 error 或 warning | 通過 |
 
-鍵盤測試以原生 `<a>`、`<button>`、`textarea` 與可見 focus 樣式為基礎；方向鍵、Escape 與焦點隔離另外以 Playwright 實際事件驗證。
+鍵盤測試以原生 `<a>`、`<button>` 與可見 focus 樣式為基礎；方向鍵、Escape 與焦點隔離另外以 Playwright 實際事件驗證。
 
 ## QA 截圖
 
@@ -45,11 +45,11 @@
 
 ![展示者模式](./qa-screenshots/presenter-mode.png)
 
-### 問題畫布
+### 引導提問
 
-輸入內容為 QA 用的一般文字，不含個人資料。
+畫面只負責引導思考，不蒐集或保存觀眾輸入。
 
-![問題畫布](./qa-screenshots/idea-canvas.png)
+![引導提問](./qa-screenshots/question-prompt.png)
 
 ### 工具實驗室
 
