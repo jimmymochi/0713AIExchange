@@ -12,3 +12,6 @@ hf-publish-final/
 .sites-*.log
 *.err.log
 .env*
+.code-review-graph/
+*.tsbuildinfo
+content-input/private-do-not-publish/
