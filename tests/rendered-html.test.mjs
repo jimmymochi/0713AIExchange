@@ -161,6 +161,7 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
     "hf-static-output/robots.txt",
     "hf-static-output/sitemap.xml",
     "hf-static-output/site.webmanifest",
+    "hf-static-output/_headers",
     "hf-static-output/README.md",
   ];
   await Promise.all(paths.map((path) => access(new URL(path, root))));
@@ -175,6 +176,13 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
   assert.match(spaceReadme, /\napp_file: index\.html\r?\n/);
   assert.match(spaceReadme, /不蒐集輸入的現場引導提問/);
   assert.doesNotMatch(spaceReadme, /驗證畫布/);
+
+  const staticHeaders = await readFile(
+    new URL("hf-static-output/_headers", root),
+    "utf8",
+  );
+  assert.match(staticHeaders, /\/assets\/\*/);
+  assert.match(staticHeaders, /max-age=31536000, immutable/);
 });
 
 test("uses configured canonical routes and valid internal static links", async () => {
