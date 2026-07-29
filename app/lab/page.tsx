@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import CopyButton from "../components/CopyButton";
 import SiteNav from "../components/SiteNav";
 import SkillsLab from "../components/SkillsLab";
 import TerminalSimulator from "../components/TerminalSimulator";
+import { siteConfig, siteDisplayDate, siteUrl } from "../site";
 
 export const metadata: Metadata = {
   title: "互動教學",
   description: "從安全的唯讀任務開始，互動學習 Antigravity CLI、Codex 與可追溯的 Agent Skills。",
+  alternates: { canonical: siteUrl(siteConfig.routes.lab) },
 };
 
 const labSections = ["tutorial-top", "install", "simulator", "tempo-pick", "skills", "safe-start"];
@@ -114,10 +117,16 @@ export default function TutorialPage() {
             TempoTerm 把終端機、編輯器、檔案、Git 與 AI Sessions 放在同一個正體中文視窗。
             我仍建議初學者先用原生終端機；當任務與分頁開始變多，再升級最有感。
           </p>
-          <Link className="button button-primary" href="/tempo.html">看看 TempoTerm 適不適合你 →</Link>
+          <Link className="button button-primary" href={siteConfig.routes.tempo}>看看 TempoTerm 適不適合你 →</Link>
         </div>
-        <Link className="tempo-pick-image reveal" href="/tempo.html" aria-label="前往 TempoTerm 完整介紹">
-          <img src="/tempo/tempo-codex.png" alt="TempoTerm 中執行 Codex CLI 的工作區畫面" />
+        <Link className="tempo-pick-image reveal" href={siteConfig.routes.tempo} aria-label="前往 TempoTerm 完整介紹">
+          <Image
+            src="/tempo/tempo-codex-public.png"
+            width={1640}
+            height={963}
+            unoptimized
+            alt="TempoTerm 中執行 Codex CLI 的去識別化工作區畫面"
+          />
           <span><strong>CODEX CLI</strong> / TERMINAL + FILES + GIT + AI</span>
         </Link>
       </section>
@@ -157,15 +166,15 @@ export default function TutorialPage() {
             </ul>
           </div>
         </div>
-        <Link className="back-home" href="/">← 回到 00981A 故事首頁</Link>
+        <Link className="back-home" href={siteConfig.routes.home}>← 回到實作故事首頁</Link>
       </section>
 
       <footer className="site-footer">
         <div>
           <span className="brand-mark">AI</span>
-          <p><strong>0731 AI 分享</strong><br />互動教學 · 2026／07／31</p>
+          <p><strong>{siteConfig.name}</strong><br />互動教學 · {siteDisplayDate}</p>
         </div>
-        <p>所有外部操作都應先確認權限、對象與預期結果</p>
+        <p>{siteConfig.speakerFullName} · 所有外部操作都應先確認權限、對象與預期結果</p>
       </footer>
     </main>
   );

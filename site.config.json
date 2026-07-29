@@ -1,0 +1,32 @@
+{
+  "name": "0731 AI 分享",
+  "shortName": "AI 實作分享",
+  "speakerName": "Jimmy",
+  "speakerFullName": "陳柏亘",
+  "date": "2026-07-31",
+  "durationMinutes": 60,
+  "locale": "zh-Hant-TW",
+  "canonicalUrl": "https://sapphirejimmy-0713aiexchange.static.hf.space",
+  "repositoryUrl": "https://github.com/jimmymochi/0713AIExchange",
+  "huggingFaceUrl": "https://huggingface.co/spaces/Sapphirejimmy/0713AIExchange",
+  "contactEmail": "jimmymochi@gmail.com",
+  "routes": {
+    "home": "/",
+    "lab": "/lab",
+    "tempo": "/tempo",
+    "labAlias": "/lab.html",
+    "tempoAlias": "/tempo.html"
+  },
+  "externalSpaces": {
+    "creditCalculator": {
+      "label": "北市大畢業學分自我審查系統",
+      "pageUrl": "https://huggingface.co/spaces/JinJia0618/UTaipei-Student",
+      "embedUrl": "https://jinjia0618-utaipei-student.hf.space"
+    },
+    "semesterPortfolio": {
+      "label": "114-2 地震學期末學習成果",
+      "pageUrl": "https://huggingface.co/spaces/Sapphirejimmy/seismology_final",
+      "embedUrl": "https://sapphirejimmy-seismology-final.static.hf.space"
+    }
+  }
+}

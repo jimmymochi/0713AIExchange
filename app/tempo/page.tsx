@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteNav from "../components/SiteNav";
 import TempoGallery from "../components/TempoGallery";
+import { siteConfig, siteUrl } from "../site";
 
 export const metadata: Metadata = {
   title: "TempoTerm｜AI 原生終端機工作區",
   description: "認識 TempoTerm：把終端機、檔案、Git 與 AI CLI 工作階段放進同一個正體中文工作區。",
+  alternates: { canonical: siteUrl(siteConfig.routes.tempo) },
 };
 
 const tempoSections = ["tempo-top", "learning-path", "workspace", "real-use", "decision", "tempo-start"];
@@ -21,7 +23,7 @@ const capabilities = [
 export default function TempoPage() {
   return (
     <main className="tempo-page">
-      <SiteNav page="tutorial" sectionIds={tempoSections} />
+      <SiteNav page="tempo" sectionIds={tempoSections} />
 
       <section className="tempo-hero story-section" id="tempo-top">
         <div className="tempo-hero-copy reveal">
@@ -131,12 +133,12 @@ export default function TempoPage() {
             採 Apache-2.0 授權；本頁為使用心得與教學介紹，與專案作者無隸屬關係，名稱與標誌仍依原專案 NOTICE 規範。
           </p>
         </div>
-        <Link className="back-home" href="/lab.html">← 回到 CLI 互動教學</Link>
+        <Link className="back-home" href={siteConfig.routes.lab}>← 回到 CLI 互動教學</Link>
       </section>
 
       <footer className="site-footer">
-        <div><span className="brand-mark">AI</span><p><strong>0731 AI 分享</strong><br />CLI 工具推薦 · TempoTerm</p></div>
-        <p>先理解命令，再升級工作區</p>
+        <div><span className="brand-mark">AI</span><p><strong>{siteConfig.name}</strong><br />CLI 工具推薦 · TempoTerm</p></div>
+        <p>{siteConfig.speakerFullName} · 先理解命令，再升級工作區</p>
       </footer>
     </main>
   );

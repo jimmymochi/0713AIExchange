@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 const scenes = {
   codex: {
     label: "Codex CLI",
-    image: "/tempo/tempo-codex.png",
+    image: "/tempo/tempo-codex-public.png",
     alt: "TempoTerm 工作區中執行 Codex CLI，左右分別顯示工作階段與 Git 面板",
     caption: "Codex CLI 留在熟悉的終端機裡；TempoTerm 把工作階段、檔案與 Git 脈絡放到同一個視窗。",
     points: [
@@ -16,7 +17,7 @@ const scenes = {
   },
   antigravity: {
     label: "Antigravity CLI",
-    image: "/tempo/tempo-antigravity-redacted.png",
+    image: "/tempo/tempo-antigravity-public.png",
     alt: "TempoTerm 工作區中執行 Antigravity CLI 並顯示正體中文 Skills 建議",
     caption: "同一個工作區也能執行 Antigravity CLI，正體中文輸出與長篇 Skill 清單都能保留清楚的閱讀節奏。",
     points: [
@@ -54,7 +55,14 @@ export default function TempoGallery() {
         <span>REAL WORKSPACE</span>
       </div>
       <div className="tempo-screen">
-        <img key={scene.image} src={scene.image} alt={scene.alt} />
+        <Image
+          key={scene.image}
+          src={scene.image}
+          width={1640}
+          height={963}
+          unoptimized
+          alt={scene.alt}
+        />
       </div>
       <div className="tempo-gallery-caption">
         <p>{scene.caption}</p>

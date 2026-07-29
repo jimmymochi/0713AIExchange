@@ -22,20 +22,48 @@ export default function SkillsLab() {
     setSelected(next === "Antigravity CLI" ? cliSkills[0] : codexSkills[0]);
   };
 
+  const chooseSource = (next: (typeof sources)[number]) => {
+    setSource(next);
+    const list = family === "Antigravity CLI" ? cliSkills : codexSkills;
+    setSelected(
+      next === "全部"
+        ? list[0] ?? null
+        : list.find((skill) => skill.sourceKind === next) ?? null,
+    );
+  };
+
   return (
     <div className="skills-lab">
       <div className="skills-toolbar">
         <div className="family-switch" role="tablist" aria-label="Skill 平台">
-          <button type="button" className={family === "Antigravity CLI" ? "active" : ""} onClick={() => chooseFamily("Antigravity CLI")}>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={family === "Antigravity CLI"}
+            className={family === "Antigravity CLI" ? "active" : ""}
+            onClick={() => chooseFamily("Antigravity CLI")}
+          >
             Antigravity CLI <span>6</span>
           </button>
-          <button type="button" className={family === "Codex" ? "active" : ""} onClick={() => chooseFamily("Codex")}>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={family === "Codex"}
+            className={family === "Codex" ? "active" : ""}
+            onClick={() => chooseFamily("Codex")}
+          >
             Codex <span>6＋3</span>
           </button>
         </div>
         <div className="source-filters" aria-label="來源篩選">
           {sources.map((item) => (
-            <button type="button" className={source === item ? "active" : ""} onClick={() => setSource(item)} key={item}>
+            <button
+              type="button"
+              aria-pressed={source === item}
+              className={source === item ? "active" : ""}
+              onClick={() => chooseSource(item)}
+              key={item}
+            >
               {item}
             </button>
           ))}
@@ -63,6 +91,11 @@ export default function SkillsLab() {
             </div>
           </button>
         ))}
+        {skills.length === 0 && (
+          <p className="skills-empty" role="status">
+            目前沒有符合這組條件的 Skill，請切換來源。
+          </p>
+        )}
       </div>
 
       {selected && (

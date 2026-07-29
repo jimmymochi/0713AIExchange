@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { terminalScenarios } from "../data";
+import { siteConfig } from "../site";
 import CopyButton from "./CopyButton";
 
 export default function TerminalSimulator() {
@@ -75,7 +76,7 @@ export default function TerminalSimulator() {
       <div className="terminal-simulator">
         <div className="terminal-chrome">
           <span className="chrome-dots" aria-hidden="true"><i /><i /><i /></span>
-          <span>0731-ai-share — powershell</span>
+          <span>{siteConfig.shortName} — powershell</span>
           <span className={`terminal-status ${phase}`}>{status}</span>
         </div>
         <div className="terminal-screen" aria-live="polite">

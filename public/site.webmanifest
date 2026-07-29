@@ -1,0 +1,17 @@
+{
+  "name": "0731 AI 分享",
+  "short_name": "AI 實作分享",
+  "description": "從真實問題到可驗證成果的 AI 實作分享。",
+  "lang": "zh-Hant-TW",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0b0f",
+  "theme_color": "#f4dd2f",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

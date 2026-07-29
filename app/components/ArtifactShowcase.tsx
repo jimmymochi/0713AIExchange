@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 
 type Sheet = { name: string; rows: Array<Array<string | number>> };
@@ -73,6 +73,7 @@ export default function ArtifactShowcase() {
   const [sheetIndex, setSheetIndex] = useState(0);
   const [query, setQuery] = useState("");
   const [pdfPage, setPdfPage] = useState(1);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     fetch("/case/excel-data.json")
@@ -80,6 +81,21 @@ export default function ArtifactShowcase() {
       .then((data) => setSheets(data.sheets ?? []))
       .catch(() => setSheets([]));
   }, []);
+
+  useEffect(() => {
+    if (!zoomed) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setZoomed(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [zoomed]);
 
   const rows = useMemo(() => {
     const source = sheets[sheetIndex]?.rows ?? [];
@@ -233,7 +249,14 @@ export default function ArtifactShowcase() {
 
       {zoomed && (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label="放大成果預覽">
-          <button className="lightbox-close" type="button" onClick={() => setZoomed(false)}>關閉 ×</button>
+          <button
+            ref={closeButtonRef}
+            className="lightbox-close"
+            type="button"
+            onClick={() => setZoomed(false)}
+          >
+            關閉 ×
+          </button>
           <Image
             src={view === "mail" ? "/case/00981a-email-redacted.png" : `/case/00981a-report-page-${pdfPage}.jpg`}
             width={view === "mail" ? 1778 : 982}

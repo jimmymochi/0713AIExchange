@@ -1,28 +1,37 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { siteConfig, siteUrl } from "./site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sapphirejimmy-0713aiexchange.static.hf.space"),
+  metadataBase: new URL(siteConfig.canonicalUrl),
   title: {
-    default: "0731 AI 分享｜Antigravity CLI × Codex",
-    template: "%s｜0731 AI 分享",
+    default: `${siteConfig.name}｜從問題到可靠成果`,
+    template: `%s｜${siteConfig.name}`,
   },
   description:
-    "互動認識 Antigravity CLI、Codex、Agent Skills，以及每天自動產生 00981A 持股分析報告的真實工作流。",
+    "Jimmy 的 AI 實作分享：從 PDF 翻譯、畢業學分自我審查到 00981A 自動報告，拆解如何找問題、做判斷並驗證成果。",
+  alternates: {
+    canonical: siteUrl("/"),
+  },
+  manifest: "/site.webmanifest",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
   openGraph: {
-    title: "0731 AI 分享｜Antigravity CLI × Codex",
-    description: "兩種 AI 代理入口、一組可追溯 Skills，以及一個每天自動完成的 00981A 工作流。",
+    title: `${siteConfig.name}｜從問題到可靠成果`,
+    description: "三個真實案例，拆解 AI 做了什麼、人做了哪些關鍵判斷，以及成果如何被驗證。",
     type: "website",
     locale: "zh_TW",
+    url: siteUrl("/"),
+    siteName: siteConfig.name,
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: siteConfig.name }],
   },
   twitter: {
-    card: "summary",
-    title: "0731 AI 分享｜Antigravity CLI × Codex",
-    description: "從 AI 開發工具到可驗證的 00981A 自動化工作流。",
+    card: "summary_large_image",
+    title: `${siteConfig.name}｜從問題到可靠成果`,
+    description: "從值得解決的問題出發，把 AI 變成可檢查、可改進的實作。",
+    images: ["/og.png"],
   },
 };
 
@@ -32,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hant">
+    <html lang={siteConfig.locale}>
       <body>{children}</body>
     </html>
   );

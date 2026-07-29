@@ -1,189 +1,376 @@
 import ArtifactShowcase from "./components/ArtifactShowcase";
+import ExternalEmbed from "./components/ExternalEmbed";
+import ProblemCanvas from "./components/ProblemCanvas";
 import SiteNav from "./components/SiteNav";
 import WorkflowExplorer from "./components/WorkflowExplorer";
-import { comparison } from "./data";
+import { publishedCases } from "./cases";
+import { siteConfig, siteDisplayDate } from "./site";
 
-const homeSections = ["top", "why-agents", "compare", "workflow", "artifacts", "next"];
+const homeSections = [
+  "top",
+  "thesis",
+  "journey",
+  "case-pdf",
+  "case-credits",
+  "case-workflow",
+  "responsibility",
+  "canvas",
+  "portfolio",
+  "tools",
+  "closing",
+];
+
+const [pdfCase, creditCase, workflowCase] = publishedCases;
 
 export default function Home() {
   return (
-    <main>
+    <>
       <SiteNav page="home" sectionIds={homeSections} />
-
-      <section className="hero story-section" id="top">
-        <div className="hero-grid">
-          <div className="hero-copy reveal">
-            <p className="eyebrow"><span className="live-dot" />從指令到交付 · 60 分鐘實作分享</p>
-            <h1>
-              <span className="hero-title-line">AI 不只回答。</span>
-              <span className="hero-title-line hero-title-accent">它把工作做完。</span>
-            </h1>
-            <p className="hero-lead">
-              從 Antigravity CLI、Codex，到每天 18:30 自動產生的 00981A
-              報告。現場拆解一句話如何變成可驗證、可重跑、可交付的工作流。
-            </p>
-            <div className="hero-facts" aria-label="分享內容摘要">
-              <div><strong>02</strong><span>代理入口<br />CLI × Codex</span></div>
-              <div><strong>15</strong><span>可追溯<br />Agent Skills</span></div>
-              <div><strong>01</strong><span>真實案例<br />00981A</span></div>
-            </div>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#workflow">進入真實工作流 <span>↓</span></a>
-              <a className="button button-secondary" href="/lab.html">開啟互動教學 <span>↗</span></a>
-            </div>
-          </div>
-
-          <div className="hero-console reveal" aria-label="AI 工作流動態摘要">
-            <div className="console-top">
-              <span className="chrome-dots"><i /><i /><i /></span>
-              <span>LIVE WORKFLOW</span>
-              <span className="console-live">● ACTIVE</span>
-            </div>
-            <div className="console-focus">
-              <div>
-                <span>CASE STUDY / 00981A</span>
-                <strong>18:30</strong>
-                <small>每個交易日自動啟動</small>
-              </div>
-              <div className="console-state">
-                <span><i />資料取得</span>
-                <span><i />51 / 51 驗證</span>
-                <span><i />Excel + PDF</span>
-              </div>
-            </div>
-            <div className="console-flow">
-              {["排程", "PCF", "比對", "Excel", "PDF", "Mail"].map((item, index) => (
-                <div key={item}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <i />
-                  <strong>{item}</strong>
+      <main id="main-content">
+        <section className="hero story-section" id="top">
+          <div className="hero-grid">
+            <div className="hero-copy reveal">
+              <p className="eyebrow">
+                <span className="live-dot" />
+                {siteConfig.durationMinutes} 分鐘 · 個人 AI 實作分享
+              </p>
+              <h1>
+                <span className="hero-title-line">AI 做得越快，</span>
+                <span className="hero-title-line hero-title-accent">
+                  人更要知道為什麼。
+                </span>
+              </h1>
+              <p className="hero-lead">
+                我做過 PDF 翻譯、畢業學分計算和 00981A 自動化。
+                三個專案教我的不是同一套工具，而是三種判斷：何時停止、什麼值得做，以及怎麼確認成果可信。
+              </p>
+              <div className="hero-facts" aria-label="分享內容摘要">
+                <div>
+                  <strong>03</strong>
+                  <span>實際案例<br />依時間展開</span>
                 </div>
-              ))}
+                <div>
+                  <strong>02</strong>
+                  <span>核心案例<br />問題 × 驗證</span>
+                </div>
+                <div>
+                  <strong>01</strong>
+                  <span>最後問題<br />留給每個人</span>
+                </div>
+              </div>
+              <div className="hero-actions">
+                <a className="button button-primary" href="#journey">
+                  從第一個專案開始 <span>↓</span>
+                </a>
+                <a className="button button-secondary" href={siteConfig.routes.lab}>
+                  工具實驗室 <span>↗</span>
+                </a>
+              </div>
             </div>
-            <div className="console-log">
-              <p><span>18:34:19</span> source / 00981A / fetching</p>
-              <p><span>18:44:03</span> retry / validated 51 of 51</p>
-              <p className="console-success"><span>18:44:27</span> delivered / report complete ✓</p>
+
+            <div className="hero-console decision-console reveal" aria-label="三個案例的決策摘要">
+              <div className="console-top">
+                <span className="chrome-dots"><i /><i /><i /></span>
+                <span>DECISION LOG</span>
+                <span className="console-live">● VERIFIED</span>
+              </div>
+              <div className="decision-console-body">
+                <p><span>01</span><strong>PDF 翻譯</strong><em>STOP</em></p>
+                <p><span>02</span><strong>畢業學分</strong><em>BUILD</em></p>
+                <p><span>03</span><strong>00981A</strong><em>VERIFY</em></p>
+              </div>
+              <div className="decision-console-question">
+                <small>THE QUESTION</small>
+                <p>當 AI 可以快速幫你實現很多東西，</p>
+                <strong>你真正想解決的是什麼問題？</strong>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="hero-marquee" aria-hidden="true">
-          <div>ANTIGRAVITY CLI · CODEX · SKILLS · AUTOMATION · 00981A · ANTIGRAVITY CLI · CODEX · SKILLS · AUTOMATION · 00981A ·</div>
-        </div>
-      </section>
+          <div className="hero-marquee" aria-hidden="true">
+            <div>
+              PROBLEM · IDEA · JUDGMENT · PROOF · RESPONSIBILITY · PROBLEM · IDEA · JUDGMENT · PROOF · RESPONSIBILITY ·
+            </div>
+          </div>
+        </section>
 
-      <section className="story-section manifesto" id="why-agents">
-        <div className="section-index">01 / WHY AGENTS</div>
-        <div className="manifesto-copy reveal">
-          <p>傳統 AI 給你一段答案。</p>
-          <p className="highlight-line">代理型 AI 會先理解環境，</p>
-          <p>再使用工具、處理例外，</p>
-          <p className="highlight-line violet">最後交付可以檢查的成果。</p>
-        </div>
-        <div className="agent-loop reveal">
-          {[
-            ["01", "理解", "目標、限制、現有檔案"],
-            ["02", "行動", "指令、程式、瀏覽器與服務"],
-            ["03", "驗證", "資料筆數、測試與畫面"],
-            ["04", "交付", "報告、檔案與可追蹤紀錄"],
-          ].map(([number, title, copy]) => (
-            <article key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
+        <section className="story-section manifesto" id="thesis">
+          <div className="section-index">01 / WHAT CHANGED</div>
+          <div className="manifesto-copy reveal">
+            <p>工具會繼續變強。</p>
+            <p className="highlight-line">操作會逐漸變成基本能力。</p>
+            <p>真正難的是找到問題，</p>
+            <p className="highlight-line violet">再對結果負責。</p>
+          </div>
+          <div className="thesis-note reveal">
+            <p>
+              技術能力沒有消失。它只是回到更合理的位置：幫助我們執行、測試與修正。
+              至於目標該往哪裡走，仍然要由人決定。
+            </p>
+          </div>
+        </section>
+
+        <section className="story-section journey-section" id="journey">
+          <div className="section-heading reveal">
+            <div>
+              <span className="section-index">02 / ONE SEMESTER</span>
+              <h2>三個專案，<br />三次不同判斷。</h2>
+            </div>
+            <p>
+              這不是成功作品排行榜。每個案例保留當時的限制，
+              也保留我改變方向的原因。
+            </p>
+          </div>
+          <ol className="journey-line reveal">
+            {publishedCases.map((project) => (
+              <li key={project.id}>
+                <a href={`#case-${project.id === "workflow" ? "workflow" : project.id}`}>
+                  <span>{project.order}</span>
+                  <small>{project.period}</small>
+                  <h3>{project.title}</h3>
+                  <p>{project.role}</p>
+                  <strong>{project.question}</strong>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="story-section case-section case-pdf" id="case-pdf">
+          <header className="case-heading reveal">
+            <div>
+              <span className="case-number">{pdfCase.order}</span>
+              <span className="mono-label">{pdfCase.period} / ACTIVE STOP</span>
+            </div>
+            <h2>{pdfCase.title}</h2>
+            <p>{pdfCase.question}</p>
+          </header>
+          <div className="case-story-grid reveal">
+            <article>
+              <span>起點</span>
+              <h3>我想保留論文排版，再翻成繁體中文。</h3>
+              <p>{pdfCase.problem}</p>
             </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="story-section compare-section" id="compare">
-        <div className="section-heading reveal">
-          <div>
-            <span className="section-index">02 / TWO ENTRIES</span>
-            <h2>兩個入口，<br />同一個代理時代。</h2>
+            <article className="case-result">
+              <span>做到哪裡</span>
+              <h3>翻譯成功，排版沒有穩定下來。</h3>
+              <p>{pdfCase.result}</p>
+            </article>
           </div>
-          <p>
-            Antigravity CLI 適合從終端快速出發；Codex 把同一套代理工作方式延伸到
-            CLI、IDE、桌面與雲端。差別不只是模型，而是你想建立多長的工作鏈。
-          </p>
-        </div>
+          <ol className="decision-path reveal" aria-label="PDF 翻譯專案的決策流程">
+            {["發現閱讀需求", "做出翻譯原型", "測試排版", "比較既有工具", "差異不足", "決定停止"].map(
+              (step, index) => (
+                <li key={step} className={index === 5 ? "stop" : ""}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{step}</strong>
+                </li>
+              ),
+            )}
+          </ol>
+          <p className="case-limit reveal">{pdfCase.limitation}</p>
+        </section>
 
-        <div className="tool-panels reveal">
-          <article className="tool-panel antigravity-panel">
-            <div className="tool-panel-top"><span>01</span><span>GOOGLE ANTIGRAVITY</span></div>
-            <h3>快速、直接、<br />終端優先。</h3>
-            <p>執行 <code>agy</code>，用自然語言派發任務，再以 Skills、Rules 與 MCP 擴充能力。</p>
-            <a href="https://antigravity.google/docs/cli/features" target="_blank" rel="noreferrer">官方文件 ↗</a>
-          </article>
-          <article className="tool-panel codex-panel">
-            <div className="tool-panel-top"><span>02</span><span>OPENAI CODEX</span></div>
-            <h3>從理解專案，<br />一路做到交付。</h3>
-            <p>在工作區內探索、修改、測試與審查，並用 AGENTS.md、Skills、Plugins 與 MCP 固化方法。</p>
-            <a href="https://developers.openai.com/codex/cli" target="_blank" rel="noreferrer">官方文件 ↗</a>
-          </article>
-        </div>
-
-        <div className="comparison-table reveal" role="table" aria-label="Antigravity CLI 與 Codex 比較">
-          <div className="comparison-row comparison-head" role="row">
-            <div role="columnheader">比較面向</div>
-            <div role="columnheader">ANTIGRAVITY CLI</div>
-            <div role="columnheader">CODEX</div>
-          </div>
-          {comparison.map((row) => (
-            <div className="comparison-row" role="row" key={row.label}>
-              <div role="cell">{row.label}</div>
-              <div role="cell">{row.antigravity}</div>
-              <div role="cell">{row.codex}</div>
+        <section className="story-section case-section case-credit" id="case-credits">
+          <header className="case-heading light reveal">
+            <div>
+              <span className="case-number">{creditCase.order}</span>
+              <span className="mono-label">{creditCase.period} / PROBLEM FIRST</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <h2>{creditCase.title}</h2>
+            <p>{creditCase.question}</p>
+          </header>
+          <div className="credit-problem reveal">
+            <div>
+              <span className="mono-label">THE GAP</span>
+              <p>校務系統提供課程與學分</p>
+            </div>
+            <div aria-hidden="true">≠</div>
+            <div>
+              <span className="mono-label">WHAT STUDENTS NEED</span>
+              <p>我還缺什麼才能畢業？</p>
+            </div>
+          </div>
+          <div className="case-responsibility reveal">
+            <article>
+              <span>AI 協助</span>
+              <ul>{creditCase.aiWork.map((item) => <li key={item}>{item}</li>)}</ul>
+            </article>
+            <article>
+              <span>人要確認</span>
+              <ul>{creditCase.humanWork.map((item) => <li key={item}>{item}</li>)}</ul>
+            </article>
+          </div>
+          <div className="credit-limit reveal">
+            <strong>目前限制</strong>
+            <p>{creditCase.limitation}</p>
+            <p>正式畢業資格仍以學校與系所審核為準。</p>
+          </div>
+          <div className="reveal">
+            <ExternalEmbed
+              title={siteConfig.externalSpaces.creditCalculator.label}
+              description="這是獨立運作的 Streamlit Space。本站只負責嵌入畫面，不會取得你在外部 Demo 輸入的內容。"
+              embedUrl={siteConfig.externalSpaces.creditCalculator.embedUrl}
+              pageUrl={siteConfig.externalSpaces.creditCalculator.pageUrl}
+              buttonLabel="我了解風險，載入外部 Demo"
+              sensitive
+              warnings={[
+                "帳號、密碼、成績單與修課資料會傳送到 Hugging Face Space 伺服器處理。",
+                "請勿在投影、錄影或他人可見的環境中顯示帳密與完整修課資料。",
+                "計算結果可能有分類錯誤，不能取代校方正式審查。",
+              ]}
+            />
+          </div>
+        </section>
 
-      <section className="story-section workflow-section" id="workflow">
-        <div className="section-heading light reveal">
+        <section className="story-section workflow-section" id="case-workflow">
+          <div className="section-heading light reveal">
+            <div>
+              <span className="section-index">03 / FAMILY REQUEST</span>
+              <h2>{workflowCase.title}</h2>
+            </div>
+            <p>
+              {workflowCase.problem}
+              我先做出能跑的版本，再把資料筆數、重試與輸出檢查補進流程。
+            </p>
+          </div>
+          <blockquote className="family-quote reveal">
+            <span>需求不是從工具開始</span>
+            <p>「每天都要自己找資料、拉表格，能不能讓 AI 幫忙？」</p>
+          </blockquote>
+          <div className="reveal"><WorkflowExplorer /></div>
+          <div className="workflow-proof-heading reveal">
+            <span className="mono-label">PROOF OF WORK</span>
+            <h3>完成不是一句回覆。檔案要能打開，資料也要對得起來。</h3>
+          </div>
+          <div className="reveal"><ArtifactShowcase /></div>
+          <p className="disclaimer">
+            {workflowCase.limitation}
+          </p>
+        </section>
+
+        <section className="story-section responsibility-section" id="responsibility">
+          <div className="section-heading reveal">
+            <div>
+              <span className="section-index">04 / WHO OWNS WHAT</span>
+              <h2>AI 可以執行。<br />責任不能外包。</h2>
+            </div>
+            <p>
+              三個案例的差別不在模型，而在我如何設定目標、驗證與停止條件。
+            </p>
+          </div>
+          <div className="responsibility-map reveal">
+            <article>
+              <span>AI 的工作</span>
+              <ul>
+                <li>讀取檔案與資料</li>
+                <li>產生程式和介面</li>
+                <li>整理表格與報告</li>
+                <li>重複執行固定流程</li>
+              </ul>
+            </article>
+            <div className="responsibility-axis" aria-hidden="true">
+              <span>執行</span><i /><strong>交界</strong><i /><span>負責</span>
+            </div>
+            <article>
+              <span>人的工作</span>
+              <ul>
+                <li>選擇值得解決的問題</li>
+                <li>比較現有方案</li>
+                <li>設定限制與驗證方式</li>
+                <li>承擔最後的結果</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section className="story-section canvas-section" id="canvas">
+          <div className="section-heading reveal">
+            <div>
+              <span className="section-index">05 / YOUR PROBLEM</span>
+              <h2>先別急著選工具。<br />寫下真正的問題。</h2>
+            </div>
+            <p>
+              用六個欄位把想法說清楚。填不出驗證方式或停止條件，也是一個值得注意的答案。
+            </p>
+          </div>
+          <div className="reveal"><ProblemCanvas /></div>
+        </section>
+
+        <section className="story-section portfolio-section" id="portfolio">
+          <div className="section-heading reveal">
+            <div>
+              <span className="section-index">06 / ONE SEMESTER</span>
+              <h2>報告、網站、<br />感測器與模擬。</h2>
+            </div>
+            <p>
+              114-2 地震學成果網站整理了整學期的互動作業、書面報告、活動心得與地震波模擬。
+            </p>
+          </div>
+          <div className="reveal">
+            <ExternalEmbed
+              title={siteConfig.externalSpaces.semesterPortfolio.label}
+              description="完整作品集保留原本的互動、影片、PDF 與內嵌作業。"
+              embedUrl={siteConfig.externalSpaces.semesterPortfolio.embedUrl}
+              pageUrl={siteConfig.externalSpaces.semesterPortfolio.pageUrl}
+              buttonLabel="載入完整學期作品集"
+              desktopRecommended
+              warnings={[
+                "完整作品集包含多個互動頁面、影片與大型 PDF，載入時間取決於網路速度。",
+                "手機可以瀏覽，但完整操作建議使用桌機。",
+              ]}
+            />
+          </div>
+        </section>
+
+        <section className="story-section tools-bridge" id="tools">
+          <div className="tools-bridge-copy reveal">
+            <span className="section-index">07 / TOOL LAB</span>
+            <h2>工具還是要學。<br />只是別讓它變成起點。</h2>
+            <p>
+              現有的 Antigravity CLI、Codex、Skills 與 TempoTerm 教學完整保留。
+              當你已經知道要解決什麼，再去挑工具會快很多。
+            </p>
+          </div>
+          <div className="tools-bridge-links reveal">
+            <a href={siteConfig.routes.lab}>
+              <span>01</span>
+              <strong>進入工具實驗室</strong>
+              <p>安裝、終端模擬、Skills 來源與風險。</p>
+              <i>→</i>
+            </a>
+            <a href={siteConfig.routes.tempo}>
+              <span>02</span>
+              <strong>認識 TempoTerm</strong>
+              <p>先學終端機，再決定是否需要整合工作區。</p>
+              <i>→</i>
+            </a>
+          </div>
+        </section>
+
+        <section className="story-section closing-section" id="closing">
+          <div className="closing-copy reveal">
+            <span className="section-index">08 / LEAVE WITH THIS</span>
+            <p>AI 已經可以快速幫你實現很多東西。</p>
+            <h2>你真正想解決的是<br />什麼問題？</h2>
+            <a className="button button-dark" href="#canvas">
+              回到我的問題畫布 <span>↑</span>
+            </a>
+          </div>
+        </section>
+
+        <footer className="site-footer">
           <div>
-            <span className="section-index">03 / REAL WORKFLOW</span>
-            <h2>晚上 6:30，<br />工作自己開始。</h2>
+            <span className="brand-mark">AI</span>
+            <p>
+              <strong>{siteConfig.name}</strong><br />
+              {siteConfig.speakerName}／{siteConfig.speakerFullName} · {siteDisplayDate}
+            </p>
           </div>
           <p>
-            00981A 案例不是即時投資資訊，而是 2026/07/28
-            經驗證的工作流快照。點選每個節點，查看它的輸入、輸出與安全檢查。
+            <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a><br />
+            公開案例依現有素材整理，限制與外部服務均已標示
           </p>
-        </div>
-        <div className="reveal"><WorkflowExplorer /></div>
-      </section>
-
-      <section className="story-section artifacts-section" id="artifacts">
-        <div className="section-heading reveal">
-          <div>
-            <span className="section-index">04 / PROOF OF WORK</span>
-            <h2>成果不是一句<br />「已經完成」。</h2>
-          </div>
-          <p>
-            真正的交付包含可檢查的通知、完整工作表、逐頁報告與原始檔。
-            這裡展示工作流在 2026/07/28 實際產生的內容。
-          </p>
-        </div>
-        <div className="reveal"><ArtifactShowcase /></div>
-        <p className="disclaimer">教學展示、非投資建議。案例內容為特定日期快照，不代表目前持股或績效。</p>
-      </section>
-
-      <section className="story-section next-section" id="next">
-        <div className="next-copy reveal">
-          <span className="section-index">05 / YOUR TURN</span>
-          <h2>先讓 AI 看懂一個資料夾，<br />再讓它接手一段工作。</h2>
-          <p>互動教學從安全的唯讀分析開始，接著帶你安裝 CLI、啟動 Skill，理解每一步的風險。</p>
-          <a className="button button-dark" href="/lab.html">進入互動教學 <span>→</span></a>
-        </div>
-      </section>
-
-      <footer className="site-footer">
-        <div>
-          <span className="brand-mark">AI</span>
-          <p><strong>0731 AI 分享</strong><br />2026／07／31 · Antigravity CLI × Codex</p>
-        </div>
-        <p>非官方教學網站 · 產品功能與安裝方式以官方文件為準</p>
-      </footer>
-    </main>
+        </footer>
+      </main>
+    </>
   );
 }
