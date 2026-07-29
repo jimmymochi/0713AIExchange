@@ -46,6 +46,7 @@ AI 的執行能力正在快速普及。會操作工具仍然重要，但真正�
 - `/tempo.html`：TempoTerm 深度介紹。
 - 建置來源路由仍為 `/process`、`/lab`、`/tempo`；Hugging Face Static Space 的公開連結使用 `.html`，因為它不會自動解析資料夾索引。
 - 靜態輸出同時保留 `/process/index.html`、`/lab/index.html`、`/tempo/index.html` 作為完整路徑相容檔。
+- GitHub Pages 另產生 `github-pages-output/`，所有內部資產與導覽使用 `/0731AIExchange/` 專案子路徑；canonical 仍指向 Hugging Face 主站，避免重複索引。
 
 ## 案例規格
 

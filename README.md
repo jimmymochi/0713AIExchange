@@ -37,6 +37,19 @@ npm run export:hf
 
 匯出結果位於 `hf-static-output/`。
 
+GitHub Pages 專用輸出：
+
+```bash
+npm run export:github
+```
+
+匯出結果位於 `github-pages-output/`。此版本會把內部路徑加上
+`/0731AIExchange/`，供專案型 Pages 網址使用：
+`https://jimmymochi.github.io/0731AIExchange/`。
+
+`.github/workflows/deploy-pages.yml` 會在 `main` 更新時執行完整建置，
+上傳 Pages artifact，再部署到 `github-pages` environment。
+
 ## 外部嵌入與資料界線
 
 首頁的畢業學分 Demo 與學期作品集來自獨立 Hugging Face Spaces，必須由訪客點擊後才載入。
@@ -51,3 +64,6 @@ npm run export:hf
 ## 部署
 
 Hugging Face Space 使用 Static SDK，將 `hf-static-output/` 的內容發佈即可。專案不需要資料庫、容器或常駐後端。
+
+GitHub Pages 使用 GitHub Actions artifact 部署，不提交 `github-pages-output/`
+到 repository，也不需要維護 `gh-pages` branch。

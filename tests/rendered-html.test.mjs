@@ -239,6 +239,93 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
   assert.doesNotMatch(sitemap, /\/(?:process|lab|tempo)<\/loc>/);
 });
 
+test("exports a GitHub Pages artifact with the repository base path", async () => {
+  const paths = [
+    "github-pages-output/index.html",
+    "github-pages-output/404.html",
+    "github-pages-output/.nojekyll",
+    "github-pages-output/process.html",
+    "github-pages-output/process/index.html",
+    "github-pages-output/lab.html",
+    "github-pages-output/lab/index.html",
+    "github-pages-output/tempo.html",
+    "github-pages-output/tempo/index.html",
+  ];
+  await Promise.all(paths.map((path) => access(new URL(path, root))));
+
+  const pagesBase = "/0731AIExchange";
+  const htmlFiles = [
+    "github-pages-output/index.html",
+    "github-pages-output/process.html",
+    "github-pages-output/lab.html",
+    "github-pages-output/tempo.html",
+  ];
+  for (const htmlFile of htmlFiles) {
+    const html = await readFile(new URL(htmlFile, root), "utf8");
+    const rootUrls = [...html.matchAll(/\b(?:href|src)="(\/[^"]*)"/g)].map(
+      (match) => match[1],
+    );
+    assert.ok(rootUrls.length > 0, `${htmlFile} must contain internal URLs`);
+    for (const value of rootUrls) {
+      assert.ok(
+        value === `${pagesBase}/` || value.startsWith(`${pagesBase}/`),
+        `${htmlFile} contains an unprefixed URL: ${value}`,
+      );
+      const pathname = decodeURIComponent(
+        new URL(value, "https://jimmymochi.github.io").pathname,
+      );
+      const relativePath = pathname.slice(pagesBase.length);
+      const destination =
+        relativePath === "/"
+          ? "github-pages-output/index.html"
+          : `github-pages-output${relativePath}`;
+      await access(new URL(destination.replaceAll("\\", "/"), root));
+    }
+  }
+
+  const pagesHome = await readFile(
+    new URL("github-pages-output/index.html", root),
+    "utf8",
+  );
+  assert.match(pagesHome, /href="\/0731AIExchange\/process\.html"/);
+  assert.match(pagesHome, /href="\/0731AIExchange\/lab\.html"/);
+  assert.match(pagesHome, /href="\/0731AIExchange\/tempo\.html"/);
+  assert.match(pagesHome, /(?:href|src)="\/0731AIExchange\/assets\//);
+
+  const manifest = await readFile(
+    new URL("github-pages-output/site.webmanifest", root),
+    "utf8",
+  );
+  assert.match(manifest, /"start_url":\s*"\/0731AIExchange\/"/);
+
+  const assetNames = await readdir(new URL("github-pages-output/assets/", root));
+  const siteBundle = assetNames.find(
+    (name) => name.startsWith("site-") && name.endsWith(".js"),
+  );
+  assert.ok(siteBundle, "GitHub Pages site bundle must exist");
+  const siteBundleContent = await readFile(
+    new URL(`github-pages-output/assets/${siteBundle}`, root),
+    "utf8",
+  );
+  assert.match(siteBundleContent, /home:`\/0731AIExchange\/`/);
+  assert.match(
+    siteBundleContent,
+    /processAlias:`\/0731AIExchange\/process\.html`/,
+  );
+  assert.match(siteBundleContent, /labAlias:`\/0731AIExchange\/lab\.html`/);
+  assert.match(siteBundleContent, /tempoAlias:`\/0731AIExchange\/tempo\.html`/);
+
+  const workflow = await readFile(
+    new URL(".github/workflows/deploy-pages.yml", root),
+    "utf8",
+  );
+  assert.match(workflow, /actions\/configure-pages@v5/);
+  assert.match(workflow, /actions\/upload-pages-artifact@v4/);
+  assert.match(workflow, /actions\/deploy-pages@v4/);
+  assert.match(workflow, /pages:\s*write/);
+  assert.match(workflow, /id-token:\s*write/);
+});
+
 test("uses configured canonical routes and valid internal static links", async () => {
   assert.deepEqual(siteConfig.routes, {
     home: "/",
