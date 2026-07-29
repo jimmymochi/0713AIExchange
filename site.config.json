@@ -12,8 +12,10 @@
   "contactEmail": "jimmymochi@gmail.com",
   "routes": {
     "home": "/",
+    "process": "/process",
     "lab": "/lab",
     "tempo": "/tempo",
+    "processAlias": "/process.html",
     "labAlias": "/lab.html",
     "tempoAlias": "/tempo.html"
   },

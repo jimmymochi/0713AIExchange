@@ -65,9 +65,10 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.match(html, /你真正想解決的是/);
   assert.match(html, /不用作答 · 先想 30 秒/);
   assert.match(html, /第一個浮現在腦中的問題/);
+  assert.match(html, /href="\/process\.html"/);
   assert.match(html, /href="\/lab\.html"/);
   assert.match(html, /href="\/tempo\.html"/);
-  assert.doesNotMatch(html, /href="\/(?:lab|tempo)"/);
+  assert.doesNotMatch(html, /href="\/(?:process|lab|tempo)"/);
   assert.doesNotMatch(html, /<textarea\b|<input\b/i);
   assert.doesNotMatch(html, /複製我的問題畫布|清除內容/);
   assert.match(html, /<html[^>]+lang="zh-Hant-TW"/);
@@ -78,6 +79,31 @@ test("renders the personal journey and all three decision cases", async () => {
   assert.match(html, /<meta property="og:image:width" content="1734"/);
   assert.match(html, /<meta property="og:image:height" content="907"/);
   assert.doesNotMatch(html, /Codex is working|Your site is taking shape/);
+});
+
+test("renders the complete website build process and discussion decisions", async () => {
+  const response = await render("/process");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /這個網站/);
+  assert.match(html, /怎麼一步一步做出來/);
+  assert.match(html, /一次只問一題/);
+  assert.match(html, /我爸覺得每天都要自己去網站找資料、拉表格/);
+  assert.match(html, /不要有可以輸入的文字框/);
+  assert.match(html, /Entry not found/);
+  assert.match(html, /Grill Me/);
+  assert.match(html, /OpenAI Codex/);
+  assert.match(html, /Antigravity CLI/);
+  assert.match(html, /Playwright/);
+  assert.match(html, /Hugging Face Static Space/);
+  assert.match(html, /完整決策與驗證脈絡/);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/sapphirejimmy-0713aiexchange\.static\.hf\.space\/process\.html"/,
+  );
+  assert.doesNotMatch(html, /href="\/process"/);
+  assert.doesNotMatch(html, /<textarea\b|<input\b/i);
 });
 
 test("validates case publication states and required content", () => {
@@ -166,6 +192,8 @@ test("renders the TempoTerm guide with a terminal-first recommendation", async (
 test("exports clean routes, compatibility aliases, and discovery files", async () => {
   const paths = [
     "hf-static-output/index.html",
+    "hf-static-output/process/index.html",
+    "hf-static-output/process.html",
     "hf-static-output/lab/index.html",
     "hf-static-output/lab.html",
     "hf-static-output/tempo/index.html",
@@ -202,20 +230,24 @@ test("exports clean routes, compatibility aliases, and discovery files", async (
   );
   assert.match(sitemap, /\/lab\.html<\/loc>/);
   assert.match(sitemap, /\/tempo\.html<\/loc>/);
-  assert.doesNotMatch(sitemap, /\/(?:lab|tempo)<\/loc>/);
+  assert.match(sitemap, /\/process\.html<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/(?:process|lab|tempo)<\/loc>/);
 });
 
 test("uses configured canonical routes and valid internal static links", async () => {
   assert.deepEqual(siteConfig.routes, {
     home: "/",
+    process: "/process",
     lab: "/lab",
     tempo: "/tempo",
+    processAlias: "/process.html",
     labAlias: "/lab.html",
     tempoAlias: "/tempo.html",
   });
 
   const htmlFiles = [
     "hf-static-output/index.html",
+    "hf-static-output/process/index.html",
     "hf-static-output/lab/index.html",
     "hf-static-output/tempo/index.html",
   ];
@@ -237,7 +269,7 @@ test("uses configured canonical routes and valid internal static links", async (
       const destination =
         pathname === "/"
           ? "hf-static-output/index.html"
-          : pathname === "/lab" || pathname === "/tempo"
+          : ["/process", "/lab", "/tempo"].includes(pathname)
             ? `hf-static-output${pathname}/index.html`
             : `hf-static-output${pathname}`;
       await access(new URL(destination.replaceAll("\\", "/"), root));
@@ -348,6 +380,8 @@ test("keeps private notes and common credential or local-path formats out of pub
 test("contains no unresolved prompts, placeholders, or unsupported safety claims", async () => {
   const publicFiles = [
     "app/page.tsx",
+    "app/process/page.tsx",
+    "app/process-data.ts",
     "app/cases.ts",
     "app/lab/page.tsx",
     "app/tempo/page.tsx",

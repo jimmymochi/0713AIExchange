@@ -11,9 +11,10 @@ Jimmy（陳柏亘）的繁體中文互動分享網站。主線不是工具清單
 ## 頁面
 
 - `/`：個人實作故事、三個案例、引導提問與外部作品嵌入
+- `/process.html`：從需求訪談、討論決策、問題修正到部署驗證的完整製作歷程
 - `/lab.html`：CLI 安裝、引導式終端模擬與 Skills
 - `/tempo.html`：TempoTerm 使用情境與選擇建議
-- `/lab`、`/tempo`：本機建置使用的來源路由，不作為 Hugging Face 公開連結
+- `/process`、`/lab`、`/tempo`：本機建置使用的來源路由，不作為 Hugging Face 公開連結
 
 集中設定位於 `site.config.json`，內容與公開界線記錄於 `docs/content-spec.md`。
 實際瀏覽器驗證與截圖記錄於 `docs/qa-browser-report.md`。

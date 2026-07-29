@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "../site";
 
 type Props = {
-  page: "home" | "tutorial" | "tempo";
+  page: "home" | "process" | "tutorial" | "tempo";
   sectionIds: string[];
 };
 
@@ -117,6 +117,12 @@ export default function SiteNav({ page, sectionIds }: Props) {
         <div className="nav-center" aria-label="頁面切換">
           <a className={page === "home" ? "active" : ""} href={siteConfig.routes.home}>
             實作故事
+          </a>
+          <a
+            className={page === "process" ? "active" : ""}
+            href={siteConfig.routes.processAlias}
+          >
+            製作歷程
           </a>
           <a
             className={page === "tutorial" ? "active" : ""}

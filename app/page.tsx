@@ -348,6 +348,12 @@ export default function Home() {
             </p>
           </div>
           <div className="tools-bridge-links reveal">
+            <a href={siteConfig.routes.processAlias}>
+              <span>00</span>
+              <strong>閱讀網站製作歷程</strong>
+              <p>原始需求、討論轉折、遇到的問題、使用工具與部署驗證。</p>
+              <i>→</i>
+            </a>
             <a href={siteConfig.routes.labAlias}>
               <span>01</span>
               <strong>進入工具實驗室</strong>
