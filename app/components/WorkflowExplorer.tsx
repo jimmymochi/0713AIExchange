@@ -92,15 +92,21 @@ export default function WorkflowExplorer() {
         {workflowNodes.map((item, index) => {
           const failed = mode === "failure" && index === 1;
           const blocked = mode === "failure" && index > 1;
+          const progressed = !blocked && index <= selected;
+          const connectorProgressed =
+            mode === "success" && index < selected;
           return (
             <button
               type="button"
-              className={`${selected === index ? "selected" : ""} ${failed ? "failed" : ""} ${blocked ? "blocked" : ""}`}
+              className={`${selected === index ? "selected" : ""} ${progressed ? "progressed" : ""} ${connectorProgressed ? "connector-progressed" : ""} ${failed ? "failed" : ""} ${blocked ? "blocked" : ""}`}
               onClick={() => setSelected(index)}
               key={item.id}
             >
               <span className="node-time">{item.time}</span>
               <i className="node-light" aria-hidden="true" />
+              {index < workflowNodes.length - 1 && (
+                <i className="node-connector" aria-hidden="true" />
+              )}
               <strong>{item.label}</strong>
               <small>{blocked ? "未執行" : failed ? "解析停止" : item.short}</small>
             </button>

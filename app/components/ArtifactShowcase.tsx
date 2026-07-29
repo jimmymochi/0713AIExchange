@@ -9,6 +9,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import Image from "next/image";
+import DownloadLink from "./DownloadLink";
 
 type Sheet = { name: string; rows: Array<Array<string | number>> };
 type ArtifactView = "mail" | "excel" | "pdf";
@@ -303,6 +304,8 @@ export default function ArtifactShowcase() {
               <button
                 type="button"
                 className={pdfPage === page ? "active" : ""}
+                data-tooltip={`切換到第 ${page} 頁`}
+                aria-label={`切換到 PDF 第 ${page} 頁`}
                 onClick={() => setPdfPage(page)}
                 key={page}
               >
@@ -339,8 +342,20 @@ export default function ArtifactShowcase() {
           <strong>完整原始成果</strong>
           <span>下載後可用 Excel 或 PDF 閱讀器開啟</span>
         </div>
-        <a href="/downloads/20260728_00981A持股分析.xlsx" download>下載 Excel · 12 KB</a>
-        <a href="/downloads/20260728_00981A持股分析.pdf" download>下載 PDF · 23.4 MB</a>
+        <DownloadLink
+          href="/downloads/20260728_00981A持股分析.xlsx"
+          download
+          toastMessage="Excel 下載開始"
+        >
+          下載 Excel · 12 KB
+        </DownloadLink>
+        <DownloadLink
+          href="/downloads/20260728_00981A持股分析.pdf"
+          download
+          toastMessage="PDF 下載開始"
+        >
+          下載 PDF · 23.4 MB
+        </DownloadLink>
       </div>
 
       {zoomed && (
@@ -349,6 +364,7 @@ export default function ArtifactShowcase() {
             ref={closeButtonRef}
             className="lightbox-close"
             type="button"
+            data-tooltip="按 Esc 也可以關閉"
             onClick={() => setZoomed(false)}
           >
             關閉 ×

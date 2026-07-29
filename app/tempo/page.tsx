@@ -80,7 +80,7 @@ export default function TempoPage() {
           <div><span className="section-index">01 / LEARNING PATH</span><h2>工具越整合，<br />基礎越重要。</h2></div>
           <p>TempoTerm 讓操作更集中，不會替你理解路徑、權限、命令與 Git。先掌握底層，遇到錯誤時才知道該看哪裡。</p>
         </div>
-        <ol className="tempo-ladder reveal">
+        <ol className="tempo-ladder reveal" data-stagger>
           <li><span>STEP 01 · START HERE</span><strong>原生終端機</strong><p>學會 <code>cd</code>、資料夾路徑、複製貼上、權限與如何停止指令。</p></li>
           <li><span>STEP 02 · ADD AI</span><strong>Codex / Antigravity CLI</strong><p>在熟悉的終端機裡下任務，觀察它讀取什麼、修改什麼、如何回報。</p></li>
           <li><span>STEP 03 · UPGRADE</span><strong>TempoTerm 工作區</strong><p>當分頁、檔案、Git 與多個 AI 工作階段變多，再用整合介面降低切換成本。</p></li>
@@ -100,7 +100,7 @@ export default function TempoPage() {
           <span className="section-index">03 / WHAT IT ADDS</span>
           <h2>一個視窗，<br />五種工作角色。</h2>
         </header>
-        <div className="tempo-capability-list reveal">
+        <div className="tempo-capability-list reveal" data-stagger>
           {capabilities.map(([number, label, title, detail]) => (
             <article key={number}>
               <span className="tempo-cap-number">{number}</span>
@@ -118,7 +118,7 @@ export default function TempoPage() {
           <h2>現在適合你嗎？</h2>
           <p>好的工具推薦，也要包含「何時先不要用」。</p>
         </div>
-        <div className="tempo-decision-grid reveal">
+        <div className="tempo-decision-grid reveal" data-stagger>
           <article className="tempo-yes">
             <span>YES · 可以升級</span>
             <h3>你已經能自己跑 CLI</h3>
@@ -148,19 +148,19 @@ export default function TempoPage() {
           <h2>三步開始，<br />不用重學 CLI。</h2>
           <p>TempoTerm 是工作區，不是新的 AI 訂閱。原本的 CLI、帳號與 shell 使用方式可以繼續沿用。</p>
         </div>
-        <div className="tempo-start-steps reveal">
-          <article><span>01</span><div><h3>下載正式版本</h3><p>從 GitHub Releases 取得最新版本；先閱讀版本說明與支援平台。</p><a href="https://github.com/mukiwu/tempo-term/releases" target="_blank" rel="noreferrer">前往 Releases ↗</a></div></article>
+        <div className="tempo-start-steps reveal" data-stagger>
+          <article><span>01</span><div><h3>下載正式版本</h3><p>從 GitHub Releases 取得最新版本；先閱讀版本說明與支援平台。</p><a className="draw-link" href="https://github.com/mukiwu/tempo-term/releases" target="_blank" rel="noreferrer">前往 Releases ↗</a></div></article>
           <article><span>02</span><div><h3>開啟熟悉的 shell</h3><p>在 TempoTerm 建立終端機，先測試 <code>codex --version</code> 或 <code>agy --version</code>。</p></div></article>
-          <article><span>03</span><div><h3>再加入整合功能</h3><p>需要內建 AI 助手時才設定自己的 API Key；Git、SSH 與 worktree 也分階段啟用。</p><a href="https://github.com/mukiwu/tempo-term/blob/master/README.zh-Hant.md" target="_blank" rel="noreferrer">正體中文說明 ↗</a></div></article>
+          <article><span>03</span><div><h3>再加入整合功能</h3><p>需要內建 AI 助手時才設定自己的 API Key；Git、SSH 與 worktree 也分階段啟用。</p><a className="draw-link" href="https://github.com/mukiwu/tempo-term/blob/master/README.zh-Hant.md" target="_blank" rel="noreferrer">正體中文說明 ↗</a></div></article>
         </div>
         <div className="tempo-source-note reveal">
           <strong>來源與授權</strong>
           <p>
-            TempoTerm 是 <a href="https://github.com/mukiwu/tempo-term" target="_blank" rel="noreferrer">mukiwu/tempo-term</a> 的第三方開源專案，
+            TempoTerm 是 <a className="draw-link" href="https://github.com/mukiwu/tempo-term" target="_blank" rel="noreferrer">mukiwu/tempo-term</a> 的第三方開源專案，
             採 Apache-2.0 授權；本頁為使用心得與教學介紹，與專案作者無隸屬關係，名稱與標誌仍依原專案 NOTICE 規範。
           </p>
         </div>
-        <a className="back-home" href={siteConfig.routes.labAlias}>← 回到 CLI 互動教學</a>
+        <a className="back-home draw-link" href={siteConfig.routes.labAlias}>← 回到 CLI 互動教學</a>
       </section>
 
       <footer className="site-footer">

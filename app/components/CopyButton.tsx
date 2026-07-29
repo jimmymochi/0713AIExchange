@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { showSiteToast } from "./ToastRegion";
 
 type CopyState = "idle" | "copied" | "error";
 
@@ -28,8 +29,17 @@ export default function CopyButton({
 }) {
   const [state, setState] = useState<CopyState>("idle");
   const errorId = useId();
+  const resetTimer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (resetTimer.current) window.clearTimeout(resetTimer.current);
+    },
+    [],
+  );
 
   const copy = async () => {
+    if (resetTimer.current) window.clearTimeout(resetTimer.current);
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(text);
@@ -37,10 +47,12 @@ export default function CopyButton({
         legacyCopy(text);
       }
       setState("copied");
+      showSiteToast("已複製到剪貼簿");
     } catch {
       setState("error");
+      showSiteToast("複製失敗，請手動選取內容", "error");
     }
-    window.setTimeout(() => setState("idle"), 2200);
+    resetTimer.current = window.setTimeout(() => setState("idle"), 2200);
   };
 
   return (
@@ -51,8 +63,17 @@ export default function CopyButton({
         onClick={copy}
         aria-describedby={state === "error" ? errorId : undefined}
       >
-        <span aria-hidden="true">
-          {state === "copied" ? "✓" : state === "error" ? "!" : "⧉"}
+        <span className={`copy-icon ${state}`} aria-hidden="true">
+          <svg className="copy-icon-default" viewBox="0 0 20 20">
+            <rect x="6" y="6" width="10" height="10" />
+            <path d="M4 13H3V3h10v1" />
+          </svg>
+          <svg className="copy-icon-success" viewBox="0 0 20 20">
+            <path d="m4 10 4 4 8-9" />
+          </svg>
+          <svg className="copy-icon-error" viewBox="0 0 20 20">
+            <path d="M10 4v8M10 15.5v.5" />
+          </svg>
         </span>
         {state === "copied" ? "已複製" : state === "error" ? "複製失敗" : label}
       </button>

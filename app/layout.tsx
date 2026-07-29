@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import MotionEnhancer from "./components/MotionEnhancer";
+import ToastRegion from "./components/ToastRegion";
 import { siteConfig, siteUrl } from "./site";
 
 export const metadata: Metadata = {
@@ -42,7 +44,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={siteConfig.locale}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <MotionEnhancer />
+        <ToastRegion />
+      </body>
     </html>
   );
 }

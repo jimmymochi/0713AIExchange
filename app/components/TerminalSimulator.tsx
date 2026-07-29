@@ -77,7 +77,19 @@ export default function TerminalSimulator() {
         <div className="terminal-chrome">
           <span className="chrome-dots" aria-hidden="true"><i /><i /><i /></span>
           <span>{siteConfig.shortName} — powershell</span>
-          <span className={`terminal-status ${phase}`}>{status}</span>
+          <span className={`terminal-status ${phase}`}>
+            {phase === "running" && (
+              <span className="status-dots" aria-hidden="true">
+                <i /><i /><i />
+              </span>
+            )}
+            {phase === "done" && (
+              <svg className="status-check" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="m4 10 4 4 8-9" />
+              </svg>
+            )}
+            <span>{status}</span>
+          </span>
         </div>
         <div className="terminal-screen" aria-live="polite">
           <p className="terminal-welcome">Microsoft PowerShell · guided simulation</p>

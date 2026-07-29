@@ -1,4 +1,5 @@
 import ArtifactShowcase from "./components/ArtifactShowcase";
+import CountUp from "./components/CountUp";
 import ExternalEmbed from "./components/ExternalEmbed";
 import ReflectionPrompt from "./components/ReflectionPrompt";
 import SectionAnchor from "./components/SectionAnchor";
@@ -83,11 +84,11 @@ export default function Home() {
                 </div>
                 <div className="console-state">
                   <span><i />資料取得</span>
-                  <span><i />51 / 51 驗證</span>
+                  <span><i /><CountUp value={51} /> / 51 驗證</span>
                   <span><i />Excel + PDF</span>
                 </div>
               </div>
-              <div className="console-flow">
+              <div className="console-flow" data-stagger>
                 {["排程", "PCF", "比對", "Excel", "PDF", "Mail"].map((item, index) => (
                   <div key={item}>
                     <span>{String(index + 1).padStart(2, "0")}</span>
@@ -137,7 +138,7 @@ export default function Home() {
               也保留我改變方向的原因。
             </p>
           </div>
-          <ol className="journey-line reveal">
+          <ol className="journey-line reveal" data-stagger>
             {publishedCases.map((project) => (
               <li key={project.id}>
                 <SectionAnchor href={`#case-${project.id === "workflow" ? "workflow" : project.id}`}>
@@ -173,7 +174,7 @@ export default function Home() {
               <p>{pdfCase.result}</p>
             </article>
           </div>
-          <ol className="decision-path reveal" aria-label="PDF 翻譯專案的決策流程">
+          <ol className="decision-path reveal" data-stagger aria-label="PDF 翻譯專案的決策流程">
             {["發現閱讀需求", "做出翻譯原型", "測試排版", "比較既有工具", "差異不足", "決定停止"].map(
               (step, index) => (
                 <li key={step} className={index === 5 ? "stop" : ""}>
@@ -206,7 +207,7 @@ export default function Home() {
               <p>我還缺什麼才能畢業？</p>
             </div>
           </div>
-          <div className="case-responsibility reveal">
+          <div className="case-responsibility reveal" data-stagger>
             <article>
               <span>AI 協助</span>
               <ul>{creditCase.aiWork.map((item) => <li key={item}>{item}</li>)}</ul>
@@ -274,7 +275,7 @@ export default function Home() {
               三個案例的差別不在模型，而在我如何設定目標、驗證與停止條件。
             </p>
           </div>
-          <div className="responsibility-map reveal">
+          <div className="responsibility-map reveal" data-stagger>
             <article>
               <span>AI 的工作</span>
               <ul>

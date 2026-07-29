@@ -3,6 +3,7 @@
 import { useMemo, useState, type KeyboardEvent } from "react";
 import { cliSkills, codexSkills, type Skill, type SourceKind } from "../data";
 import CopyButton from "./CopyButton";
+import DownloadLink from "./DownloadLink";
 import useSlidingPill from "./useSlidingPill";
 
 const sources: Array<"全部" | SourceKind> = ["全部", "官方", "第三方", "Jimmy 客製"];
@@ -110,7 +111,8 @@ export default function SkillsLab() {
       </div>
 
       <div
-        className="skills-grid"
+        className="skills-grid skill-card-stagger"
+        key={`${family}-${source}`}
         id="skills-family-panel"
         role="tabpanel"
         aria-labelledby={`skills-family-${family === "Codex" ? "codex" : "antigravity"}`}
@@ -152,8 +154,17 @@ export default function SkillsLab() {
             </div>
             <div className="source-block">
               <span>{selected.sourceKind}</span>
-              <a href={selected.sourceUrl} target="_blank" rel="noreferrer">{selected.sourceLabel} ↗</a>
-              {selected.download && <a href={selected.download} download>下載本站客製原始檔 ↓</a>}
+              <a className="draw-link" href={selected.sourceUrl} target="_blank" rel="noreferrer">{selected.sourceLabel} ↗</a>
+              {selected.download && (
+                <DownloadLink
+                  className="draw-link"
+                  href={selected.download}
+                  download
+                  toastMessage={`${selected.name} 下載開始`}
+                >
+                  下載本站客製原始檔 ↓
+                </DownloadLink>
+              )}
             </div>
           </div>
           <div className="skill-detail-grid">

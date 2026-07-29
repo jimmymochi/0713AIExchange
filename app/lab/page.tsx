@@ -3,6 +3,7 @@ import Image from "next/image";
 import CopyButton from "../components/CopyButton";
 import SiteNav from "../components/SiteNav";
 import SkillsLab from "../components/SkillsLab";
+import SpringDetails from "../components/SpringDetails";
 import TerminalSimulator from "../components/TerminalSimulator";
 import { siteConfig, siteDisplayDate, siteUrl } from "../site";
 
@@ -44,6 +45,7 @@ export default function TutorialPage() {
         </div>
         <div className="agenda-card reveal">
           <div className="agenda-head"><span>LIVE AGENDA</span><span>60 MIN</span></div>
+          <div data-stagger>
           {[
             ["00—10", "理解代理工作方式"],
             ["10—20", "安裝兩套 CLI"],
@@ -53,6 +55,7 @@ export default function TutorialPage() {
           ].map(([time, title]) => (
             <div className="agenda-row" key={time}><span>{time}</span><strong>{title}</strong></div>
           ))}
+          </div>
         </div>
       </section>
 
@@ -65,19 +68,18 @@ export default function TutorialPage() {
           <p>先安裝，再驗證版本，最後登入。不要把 API Key 直接貼進公開對話、程式碼或網站。</p>
         </div>
 
-        <div className="install-cards reveal">
+        <div className="install-cards reveal" data-stagger>
           <article className="install-card antigravity-install">
             <div className="install-card-title"><span>01</span><div><small>GOOGLE</small><h3>Antigravity CLI</h3></div></div>
             <div className="os-command">
               <div><span>WINDOWS · POWERSHELL</span><CopyButton text={installs.antigravity.windows} /></div>
               <pre><code>{installs.antigravity.windows}</code></pre>
             </div>
-            <details>
-              <summary>macOS / Linux 指令</summary>
+            <SpringDetails summary="macOS / Linux 指令">
               <div className="details-code"><code>{installs.antigravity.unix}</code><CopyButton text={installs.antigravity.unix} /></div>
-            </details>
+            </SpringDetails>
             <div className="verify-command"><span>VERIFY</span><code>{installs.antigravity.verify}</code><CopyButton text={installs.antigravity.verify} /></div>
-            <a href="https://antigravity.google/docs/cli/features" target="_blank" rel="noreferrer">閱讀官方文件 ↗</a>
+            <a className="draw-link" href="https://antigravity.google/docs/cli/features" target="_blank" rel="noreferrer">閱讀官方文件 ↗</a>
           </article>
 
           <article className="install-card codex-install">
@@ -86,12 +88,11 @@ export default function TutorialPage() {
               <div><span>WINDOWS · NPM</span><CopyButton text={installs.codex.windows} /></div>
               <pre><code>{installs.codex.windows}</code></pre>
             </div>
-            <details>
-              <summary>macOS / Linux 一鍵安裝</summary>
+            <SpringDetails summary="macOS / Linux 一鍵安裝">
               <div className="details-code"><code>{installs.codex.unix}</code><CopyButton text={installs.codex.unix} /></div>
-            </details>
+            </SpringDetails>
             <div className="verify-command"><span>VERIFY</span><code>{installs.codex.verify}</code><CopyButton text={installs.codex.verify} /></div>
-            <a href="https://developers.openai.com/codex/cli" target="_blank" rel="noreferrer">閱讀官方文件 ↗</a>
+            <a className="draw-link" href="https://developers.openai.com/codex/cli" target="_blank" rel="noreferrer">閱讀官方文件 ↗</a>
           </article>
         </div>
       </section>
@@ -145,7 +146,7 @@ export default function TutorialPage() {
       </section>
 
       <section className="safe-start story-section" id="safe-start">
-        <div className="safe-start-grid reveal">
+        <div className="safe-start-grid reveal" data-stagger>
           <div>
             <span className="section-index">04 / FIRST MISSION</span>
             <h2>你的第一個任務：<br />只讀，不修改。</h2>
@@ -165,7 +166,7 @@ export default function TutorialPage() {
             </ul>
           </div>
         </div>
-        <a className="back-home" href={siteConfig.routes.home}>← 回到實作故事首頁</a>
+        <a className="back-home draw-link" href={siteConfig.routes.home}>← 回到實作故事首頁</a>
       </section>
 
       <footer className="site-footer">

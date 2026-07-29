@@ -104,7 +104,7 @@ export default function ProcessPage() {
             </p>
             <footer>Jimmy 在需求訪談中定下的核心主張</footer>
           </blockquote>
-          <div className="process-origin-grid reveal">
+          <div className="process-origin-grid reveal" data-stagger>
             <article>
               <span>原始狀態</span>
               <h2>內容很多，主線還沒站穩。</h2>
@@ -132,9 +132,9 @@ export default function ProcessPage() {
               每一步都有一個問題、實際用到的工具和可檢查的輸出。這是這次真正走過的製作路線。
             </p>
           </header>
-          <ol className="process-timeline">
+          <ol className="process-timeline" data-stagger>
             {buildStages.map((stage) => (
-              <li className="reveal" key={stage.order}>
+              <li key={stage.order}>
                 <div className="process-stage-index">
                   <span>{stage.order}</span>
                   <i aria-hidden="true" />
@@ -168,9 +168,9 @@ export default function ProcessPage() {
               這七個想法決定了內容順序、案例篇幅、Demo 方式與畫面。它們比逐題列出我回答過什麼更接近真正的製作過程。
             </p>
           </header>
-          <ol className="idea-track">
+          <ol className="idea-track" data-stagger>
             {productionIdeas.map((item) => (
-              <li className="reveal" key={item.order}>
+              <li key={item.order}>
                 <div className="idea-statement">
                   <span>{item.order}</span>
                   <strong>{item.title}</strong>
@@ -197,9 +197,9 @@ export default function ProcessPage() {
               錯誤訊息只是表面。真正的修正要能說明原因，也要有一個會先失敗、修完再通過的檢查。
             </p>
           </header>
-          <div className="issue-ledger">
+          <div className="issue-ledger" data-stagger>
             {buildIssues.map((issue, index) => (
-              <article className="reveal" key={issue.title}>
+              <article key={issue.title}>
                 <div className="issue-ledger-title">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <small>{issue.status}</small>
@@ -224,9 +224,9 @@ export default function ProcessPage() {
               這裡只列實際參與建站的工具，並寫清楚它做了什麼、留下什麼。Antigravity CLI、Skills 與 TempoTerm 是網站介紹的內容，不等於這次全部都有拿來建站。
             </p>
           </header>
-          <ol className="tool-ledger">
+          <ol className="tool-ledger" data-stagger>
             {toolGroups.map((group) => (
-              <li className="reveal" key={group.order}>
+              <li key={group.order}>
                 <span>{group.order}</span>
                 <div className="tool-ledger-task">
                   <h3>{group.title}</h3>
