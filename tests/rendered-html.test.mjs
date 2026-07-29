@@ -309,7 +309,11 @@ test("exports a GitHub Pages artifact with the repository base path", async () =
   const siteBundle = assetNames.find(
     (name) => name.startsWith("site-") && name.endsWith(".js"),
   );
+  const mainBundle = assetNames.find(
+    (name) => name.startsWith("index-") && name.endsWith(".js"),
+  );
   assert.ok(siteBundle, "GitHub Pages site bundle must exist");
+  assert.ok(mainBundle, "GitHub Pages main runtime bundle must exist");
   const siteBundleContent = await readFile(
     new URL(`github-pages-output/assets/${siteBundle}`, root),
     "utf8",
@@ -321,6 +325,15 @@ test("exports a GitHub Pages artifact with the repository base path", async () =
   );
   assert.match(siteBundleContent, /labAlias:`\/0731AIExchange\/lab\.html`/);
   assert.match(siteBundleContent, /tempoAlias:`\/0731AIExchange\/tempo\.html`/);
+  const mainBundleContent = await readFile(
+    new URL(`github-pages-output/assets/${mainBundle}`, root),
+    "utf8",
+  );
+  assert.match(mainBundleContent, /["'`]0731AIExchange\/assets\//);
+  assert.doesNotMatch(
+    mainBundleContent,
+    /["'`]\/\/0731AIExchange\/assets\//,
+  );
 
   const workflow = await readFile(
     new URL(".github/workflows/deploy-pages.yml", root),
@@ -331,6 +344,38 @@ test("exports a GitHub Pages artifact with the repository base path", async () =
   assert.match(workflow, /actions\/deploy-pages@v4/);
   assert.match(workflow, /pages:\s*write/);
   assert.match(workflow, /id-token:\s*write/);
+});
+
+test("prefixes every GitHub Pages asset URL, including srcset and hydrated payloads", async () => {
+  const pagesBase = "/0731AIExchange";
+  const entries = await readdir(new URL("github-pages-output/", root), {
+    recursive: true,
+    withFileTypes: true,
+  });
+  const textFiles = entries
+    .filter((entry) => entry.isFile())
+    .map((entry) => `${entry.parentPath}\\${entry.name}`)
+    .filter((path) => /\.(?:css|html|js|json|webmanifest)$/i.test(path));
+
+  for (const path of textFiles) {
+    const content = await readFile(path, "utf8");
+    const unprefixed = content.match(
+      /(^|[^A-Za-z0-9.:/_-])\/(?:assets|case|downloads|tempo)\//m,
+    );
+    assert.equal(
+      unprefixed,
+      null,
+      `${path} contains an unprefixed deployed asset URL; expected ${pagesBase}/`,
+    );
+    const bareBuildAsset = content.match(
+      /(["'`])(?:assets|case|downloads|tempo)\//,
+    );
+    assert.equal(
+      bareBuildAsset,
+      null,
+      `${path} contains a bare build asset path that hydration can resolve from the domain root`,
+    );
+  }
 });
 
 test("uses configured canonical routes and valid internal static links", async () => {
@@ -602,4 +647,38 @@ test("uses measured sliding pills for the recommended segmented controls", async
       ),
     );
   }
+});
+
+test("ships the recommended motion feedback as accessible enhancements", async () => {
+  const [css, layout, copy, terminal, workflow, lab, skills, artifacts] =
+    await Promise.all([
+      readFile(new URL("app/globals.css", root), "utf8"),
+      readFile(new URL("app/layout.tsx", root), "utf8"),
+      readFile(new URL("app/components/CopyButton.tsx", root), "utf8"),
+      readFile(new URL("app/components/TerminalSimulator.tsx", root), "utf8"),
+      readFile(new URL("app/components/WorkflowExplorer.tsx", root), "utf8"),
+      readFile(new URL("app/lab/page.tsx", root), "utf8"),
+      readFile(new URL("app/components/SkillsLab.tsx", root), "utf8"),
+      readFile(new URL("app/components/ArtifactShowcase.tsx", root), "utf8"),
+    ]);
+
+  assert.match(layout, /<ToastRegion \/>/);
+  assert.match(layout, /<MotionEnhancer \/>/);
+  assert.match(css, /@keyframes toast-overshoot/);
+  assert.match(copy, /showSiteToast\("已複製到剪貼簿"\)/);
+  assert.match(copy, /copy-icon-success/);
+  assert.match(terminal, /className="status-dots"/);
+  assert.match(terminal, /className="status-check"/);
+  assert.match(workflow, /connector-progressed/);
+  assert.match(workflow, /className="node-connector"/);
+  assert.match(lab, /<SpringDetails/);
+  assert.match(lab, /data-stagger/);
+  assert.match(skills, /skill-card-stagger/);
+  assert.match(skills, /<DownloadLink/);
+  assert.match(artifacts, /data-tooltip=/);
+  assert.match(artifacts, /<DownloadLink/);
+  assert.match(css, /\.draw-link/);
+  assert.match(css, /\[data-tooltip\]::before/);
+  assert.match(css, /grid-template-rows:\s*0fr/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });

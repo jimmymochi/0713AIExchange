@@ -27,17 +27,23 @@ const pathStarts = [
   "globe.svg",
   "window.svg",
 ];
-const quotedRootPath = new RegExp(
-  `(["'\`])\\/(?=(?:${pathStarts
+const rootPath = new RegExp(
+  `(^|[^A-Za-z0-9.:/_-])\\/(?=(?:${pathStarts
     .map((value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
     .join("|")}))`,
-  "g",
+  "gm",
 );
+const bareBuildAssetPath =
+  /(["'`])(?=(?:assets|case|downloads|tempo)\/)/g;
 
 function rewriteForProjectPages(content, extension) {
   let rewritten = content.replace(
-    quotedRootPath,
-    (_match, quote) => `${quote}${basePath}/`,
+    rootPath,
+    (_match, prefix) => `${prefix}${basePath}/`,
+  );
+  rewritten = rewritten.replace(
+    bareBuildAssetPath,
+    (_match, quote) => `${quote}${basePath.slice(1)}/`,
   );
 
   rewritten = rewritten
