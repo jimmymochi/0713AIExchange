@@ -68,8 +68,8 @@ test("renders the personal journey and all three decision cases", async () => {
     html,
     /<link rel="canonical" href="https:\/\/sapphirejimmy-0713aiexchange\.static\.hf\.space\/"/,
   );
-  assert.match(html, /<meta property="og:image:width" content="1731"/);
-  assert.match(html, /<meta property="og:image:height" content="909"/);
+  assert.match(html, /<meta property="og:image:width" content="1734"/);
+  assert.match(html, /<meta property="og:image:height" content="907"/);
   assert.doesNotMatch(html, /Codex is working|Your site is taking shape/);
 });
 
