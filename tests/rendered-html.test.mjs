@@ -515,3 +515,13 @@ test("ships accessibility and motion safeguards in the design system", async () 
   assert.match(showcase, /aria-modal="true"/);
   assert.match(showcase, /event\.key === "Escape"/);
 });
+
+test("keeps long-distance case anchor navigation interruptible", async () => {
+  const css = await readFile(new URL("app/globals.css", root), "utf8");
+
+  assert.doesNotMatch(
+    css,
+    /html\s*\{[^}]*scroll-behavior:\s*smooth/s,
+    "Global smooth scrolling makes the three case-card jumps block wheel input",
+  );
+});
