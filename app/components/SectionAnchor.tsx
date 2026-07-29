@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function SectionAnchor({ children, href }: Props) {
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (
       event.button !== 0 ||
       event.altKey ||
@@ -28,8 +28,13 @@ export default function SectionAnchor({ children, href }: Props) {
   };
 
   return (
-    <a href={href} onClick={handleClick}>
+    <button
+      type="button"
+      aria-controls={href.slice(1)}
+      data-section-anchor
+      onClick={handleClick}
+    >
       {children}
-    </a>
+    </button>
   );
 }

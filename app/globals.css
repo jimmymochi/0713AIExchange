@@ -1541,15 +1541,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
 }
 .journey-line li { min-width: 0; border-right: 1px solid var(--line); }
 .journey-line li:last-child { border-right: 0; }
-.journey-line a {
+.journey-line :is(a, button) {
   display: flex;
+  width: 100%;
   min-height: 430px;
   padding: 25px;
+  border: 0;
   flex-direction: column;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
   transition: background .2s ease, transform .2s ease;
 }
-.journey-line a:hover { background: #fff; transform: translateY(-6px); }
-.journey-line a:active { transform: translateY(-2px); }
+.journey-line :is(a, button):hover { background: #fff; transform: translateY(-6px); }
+.journey-line :is(a, button):active { transform: translateY(-2px); }
 .journey-line span, .journey-line small {
   color: var(--muted);
   font: 750 10px/1 var(--font-mono);
@@ -1873,7 +1879,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
 @media (max-width: 1050px) {
   .journey-line { grid-template-columns: 1fr; }
   .journey-line li { border-right: 0; border-bottom: 1px solid var(--line); }
-  .journey-line a { min-height: 330px; }
+  .journey-line :is(a, button) { min-height: 330px; }
   .case-heading { grid-template-columns: 120px 1fr; }
   .decision-path { grid-template-columns: repeat(3, 1fr); gap: 25px 0; }
   .responsibility-map { grid-template-columns: 1fr 90px 1fr; }

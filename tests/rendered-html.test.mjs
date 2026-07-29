@@ -536,6 +536,9 @@ test("bypasses native fragment navigation for the three case cards", async () =>
     new URL("app/components/SectionAnchor.tsx", root),
     "utf8",
   );
+  assert.match(sectionAnchor, /<button/);
+  assert.doesNotMatch(sectionAnchor, /<a\b/);
+  assert.match(sectionAnchor, /type="button"/);
   assert.match(sectionAnchor, /event\.preventDefault\(\)/);
   assert.match(sectionAnchor, /window\.history\.pushState/);
   assert.match(
